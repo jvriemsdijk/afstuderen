@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      lang="nl">       
+
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Cache-Control" content="no-cache"/>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="author" content="A.S.B.P. Hettinga"/>
+        <meta name="keywords" content="oracle, integratie, service oriented architecture, java, security, business process management, bpm, enterprise service bus, esb, " />
+        <meta name="rights" content="All rights reserved to H2 | hydrogenic B.V." />
+        <meta name="description" content="#{applicatieManager.applicatieNaam} De specialist in keten-integratie en procesverbetering. Wij koppelen organisaties en systemen met behulp van moderne technologie en hanteren daarbij de hoogste beveiligingseisen." />
+        <meta name="generator" content="H2 | contentmanager" />
+
+        <title>H2 | hydrogenic | De specialist in ketenintegratie en procesverbetering</title>
+
+        <link href="http://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" type="text/css"/>
+        <link href='http://fonts.googleapis.com/css?family=Share+Tech' rel='stylesheet' type='text/css'/>    
+        
+        <link rel="shortcut icon" href="#{facesContext.externalContext.requestContextPath}/resources/img/hydrogenic.ico"/>
+        <link href="#{facesContext.externalContext.requestContextPath}/resources/css/bootstrap.css" rel="stylesheet"/>
+        <!--pro version -->
+        <link href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" rel="stylesheet"/>
+        <link href="#{facesContext.externalContext.requestContextPath}/resources/css/glyphicons.css" rel="stylesheet"/>
+        <!--custom-->
+        <link href="#{facesContext.externalContext.requestContextPath}/resources/css/hydrogenic.css" rel="stylesheet"/>
+
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>         
+        
+        
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <h:outputText escape="false" value="&lt;!--[if lt IE 9]&gt;&lt;script  src=&quot;#{facesContext.externalContext.requestContextPath}/resources/js/html5shiv.js&quot;&gt;&lt;/script&gt;&lt;![endif]--&gt;" />
+        <h:outputText escape="false" value="&lt;!--[if lt IE 9]&gt;&lt;script  src=&quot;#{facesContext.externalContext.requestContextPath}/resources/js/respond.min.js&quot;&gt;&lt;/script&gt;&lt;![endif]--&gt;" />
+
+        
+        
+    </h:head>
+
+    <h:body>
+
+        <div class="container" id="header" style="padding-bottom: 15px; margin-top: 15px;">
+            <img src="#{facesContext.externalContext.requestContextPath}/resources/img/H2_logo.png" alt="logo H2 | hydrogenic" style="width: 250px;"/>
+        </div>
+
+
+        <div class="container" id="menu">
+            <ui:insert name="menu"/> 
+        </div> <!-- /container -->
+
+        <ui:insert name="carousel"/>
+
+        <div class="container" id="menu">
+            <ui:insert name="jumbotron"/>
+        </div> <!-- /container -->
+        
+        <ui:insert name="content"/>
+        
+        <ui:insert name="footer"/>
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="#{facesContext.externalContext.requestContextPath}/resources/js/jquery-2.0.3.min.js"></script>
+        <script src="#{facesContext.externalContext.requestContextPath}/resources/js/bootstrap.min.js"></script>
+        <script src="#{facesContext.externalContext.requestContextPath}/resources/js/scrollspy.js"></script>
+        
+        
+<!--	<script src="#{facesContext.externalContext.requestContextPath}/resources/js/modernizr.js"></script>-->
+
+
+    </h:body>
+</html>

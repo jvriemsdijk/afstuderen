@@ -1,0 +1,85 @@
+package nl.h2.ejb.schema;
+
+import javax.persistence.*;
+import java.util.List;
+
+/**
+ * Created by joeyvanriemsdijk on 02/06/16.
+ */
+@Entity
+@Table(name = "advice", schema = "public", catalog = "postgres")
+public class AdviceJPA {
+    private long id;
+    private boolean goAhead;
+    private PersonJPA applicant;
+    private List<ConditionJPA> currentConditions;
+    private List<ConditionJPA> futureConditions;
+
+    @Id
+    @Column(name = "id", nullable = false)
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Basic
+    @Column(name = "go_ahead", nullable = false)
+    public boolean isGoAhead() {
+        return goAhead;
+    }
+
+    public void setGoAhead(boolean goAhead) {
+        this.goAhead = goAhead;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AdviceJPA adviceJPA = (AdviceJPA) o;
+
+        if (id != adviceJPA.id) return false;
+        if (goAhead != adviceJPA.goAhead) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (goAhead ? 1 : 0);
+        return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "applicant", referencedColumnName = "bsn")
+    public PersonJPA getApplicant() {
+        return applicant;
+    }
+
+    public void setApplicant(PersonJPA applicant) {
+        this.applicant = applicant;
+    }
+
+    @OneToMany
+    public List<ConditionJPA> getCurrentConditions() {
+        return currentConditions;
+    }
+
+    public void setCurrentConditions(List<ConditionJPA> currentConditions) {
+        this.currentConditions = currentConditions;
+    }
+
+    @OneToMany
+    public List<ConditionJPA> getFutureConditions() {
+        return futureConditions;
+    }
+
+    public void setFutureConditions(List<ConditionJPA> futureConditions) {
+        this.futureConditions = futureConditions;
+    }
+}

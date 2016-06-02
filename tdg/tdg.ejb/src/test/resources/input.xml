@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    
+    <entiteiten id="1" naam="OMV" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit" />
+    
+    <types id="1" naam="OLO_NUMMER" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit" />
+    <types id="2" naam="BSN" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit" />
+    
+    <relaties id="1" naam="key" entiteit="1" type="1" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit" />
+    <relaties id="2" naam="Aanvrager" entiteit="1" type="2" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit" />
+
+    <instanties id="1" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit" />
+
+    <waarden id="1" relatie="1" waarde="1" instantie="1" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit"/>
+    
+</dataset>

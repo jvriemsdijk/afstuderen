@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>afstuderen</groupId>
+		<artifactId>tdg</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>tdg.ear</artifactId>
+	<packaging>ear</packaging>
+	<name>tdg.ear</name>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+						<manifestEntries>
+							<version>${project.version}</version>
+							<company>H2 | hydrogenic BV</company>
+						</manifestEntries>
+					</archive>
+					<version>6</version>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<displayName>tdg v1</displayName>
+					<modules>
+						<webModule>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>tdg.web</artifactId>
+							<contextRoot>/tdg</contextRoot>
+						</webModule>
+						<ejbModule>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>tdg.ejb</artifactId>
+						</ejbModule>
+					</modules>
+
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>tdg.ejb</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>tdg.web</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+</project>
