@@ -22,6 +22,7 @@ public class TrainingDataGenerator {
 
     public TrainingDataGenerator() {
     }
+
     @PersistenceContext(unitName = "tdg.database")
     private EntityManager entityManager;
 
@@ -30,12 +31,11 @@ public class TrainingDataGenerator {
     private Map<ConditionJPA, Double> conditionProbabilityMap;
 
 
-
     /**
      * Method to generate a fresh instance of the database training data. Will generate content for the database with
      * the given parameters.
      *
-     * @param numberOfRecords             - The total number of records to be generated
+     * @param numberOfRecords          - The total number of records to be generated
      * @param meanNumberOfApplications - The average number of applications an applying person has
      * @param meanHousholdSize         - The average size of the household of an applicant
      */
@@ -100,61 +100,69 @@ public class TrainingDataGenerator {
             Conditions
              */
 
-            // Minor mobility impairment
-            ConditionJPA minorMovementImpairment = new ConditionJPA();
-            minorMovementImpairment.setName("Minor mobility impairment");
-            minorMovementImpairment.setChronic(false);
-            entityManager.flush();
-            entityManager.persist(minorMovementImpairment);
+        // Minor mobility impairment
+        ConditionJPA minorMovementImpairment = new ConditionJPA();
+        minorMovementImpairment.setId(1);
+        minorMovementImpairment.setName("Minor mobility impairment");
+        minorMovementImpairment.setChronic(false);
+        entityManager.flush();
+        entityManager.merge(minorMovementImpairment);
 
-            // Medium mobility impairment
-            ConditionJPA mediumMovementImpairment = new ConditionJPA();
-            mediumMovementImpairment.setName("Medium mobility impairment");
-            mediumMovementImpairment.setChronic(false);
-            entityManager.flush();
-            entityManager.persist(mediumMovementImpairment);
+        // Medium mobility impairment
+        ConditionJPA mediumMovementImpairment = new ConditionJPA();
+        mediumMovementImpairment.setId(2);
+        mediumMovementImpairment.setName("Medium mobility impairment");
+        mediumMovementImpairment.setChronic(false);
+        entityManager.flush();
+        entityManager.merge(mediumMovementImpairment);
 
-            // Severe mobility impairment
-            ConditionJPA severeMovementImpairment = new ConditionJPA();
-            severeMovementImpairment.setName("Severe mobility impairment");
-            severeMovementImpairment.setChronic(false);
-            entityManager.flush();
-            entityManager.persist(severeMovementImpairment);
+        // Severe mobility impairment
+        ConditionJPA severeMovementImpairment = new ConditionJPA();
+        severeMovementImpairment.setId(3);
+        severeMovementImpairment.setName("Severe mobility impairment");
+        severeMovementImpairment.setChronic(false);
+        entityManager.flush();
+        entityManager.merge(severeMovementImpairment);
 
-            // Wheelchair bound
-            ConditionJPA wheelchairBound = new ConditionJPA();
-            wheelchairBound.setName("Wheelchair bound");
-            wheelchairBound.setChronic(false);
-            entityManager.flush();
-            entityManager.persist(wheelchairBound);
+        // Wheelchair bound
+        ConditionJPA wheelchairBound = new ConditionJPA();
+        wheelchairBound.setId(4);
+        wheelchairBound.setName("Wheelchair bound");
+        wheelchairBound.setChronic(false);
+        entityManager.flush();
+        entityManager.merge(wheelchairBound);
 
-            // Minor mobility impairment - Chronic
-            ConditionJPA minorMovementImpairmentChronic = new ConditionJPA();
-            minorMovementImpairmentChronic.setName("Minor mobility impairment - Chronic");
-            minorMovementImpairmentChronic.setChronic(true);
-            entityManager.flush();
-            entityManager.persist(minorMovementImpairmentChronic);
+        // Minor mobility impairment - Chronic
+        ConditionJPA minorMovementImpairmentChronic = new ConditionJPA();
+        minorMovementImpairmentChronic.setId(5);
+        minorMovementImpairmentChronic.setName("Minor mobility impairment - Chronic");
+        minorMovementImpairmentChronic.setChronic(true);
+        entityManager.flush();
+        entityManager.merge(minorMovementImpairmentChronic);
 
-            // Medium mobility impairment - Chronic
-            ConditionJPA mediumMovementImpairmentChronic = new ConditionJPA();
-            mediumMovementImpairmentChronic.setName("Medium mobility impairment - Chronic");
-            mediumMovementImpairmentChronic.setChronic(true);
-            entityManager.flush();
-            entityManager.persist(mediumMovementImpairmentChronic);
+        // Medium mobility impairment - Chronic
+        ConditionJPA mediumMovementImpairmentChronic = new ConditionJPA();
+        mediumMovementImpairmentChronic.setId(6);
+        mediumMovementImpairmentChronic.setName("Medium mobility impairment - Chronic");
+        mediumMovementImpairmentChronic.setChronic(true);
+        entityManager.flush();
+        entityManager.merge(mediumMovementImpairmentChronic);
 
-            // Severe mobility impairment - Chronic
-            ConditionJPA severeMovementImpairmentChronic = new ConditionJPA();
-            severeMovementImpairmentChronic.setName("Severe mobility impairment - Chronic");
-            severeMovementImpairment.setChronic(true);
-            entityManager.flush();
-            entityManager.persist(severeMovementImpairmentChronic);
+        // Severe mobility impairment - Chronic
+        ConditionJPA severeMovementImpairmentChronic = new ConditionJPA();
+        severeMovementImpairmentChronic.setId(7);
+        severeMovementImpairmentChronic.setName("Severe mobility impairment - Chronic");
+        severeMovementImpairmentChronic.setChronic(true);
+        entityManager.flush();
+        entityManager.merge(severeMovementImpairmentChronic);
 
-            // Wheelchair bound - Chronic
-            ConditionJPA wheelchairBoundChronic = new ConditionJPA();
-            wheelchairBoundChronic.setName("Wheelchair bound - Chronic");
-            wheelchairBoundChronic.setChronic(true);
-            entityManager.flush();
-            entityManager.persist(wheelchairBoundChronic);
+        // Wheelchair bound - Chronic
+        ConditionJPA wheelchairBoundChronic = new ConditionJPA();
+        wheelchairBoundChronic.setId(8);
+        wheelchairBoundChronic.setName("Wheelchair bound - Chronic");
+        wheelchairBoundChronic.setChronic(true);
+        entityManager.flush();
+        entityManager.merge(wheelchairBoundChronic);
 
 
 
@@ -163,28 +171,13 @@ public class TrainingDataGenerator {
              */
 
 
-
-
-
-
-
-
-
-
-
-
-
-            AdjustmentDefinitionJPA adjustment = new AdjustmentDefinitionJPA();
-
+        AdjustmentDefinitionJPA adjustment = new AdjustmentDefinitionJPA();
 
 
 //
 //        } catch (Exception e) {
 //            throw new ApplicatieException(Constanten.FOUT_ONBEKENDE_FOUT);
 //        }
-
-
-
 
 
     }
