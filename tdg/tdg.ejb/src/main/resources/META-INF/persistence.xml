@@ -10,7 +10,7 @@
       <class>nl.h2.ejb.schema.ConditionJPA</class>
       <class>nl.h2.ejb.schema.HousingSituationJPA</class>
       <class>nl.h2.ejb.schema.PersonJPA</class>
-      <class>nl.h2.ejb.schema.WmoDecisionsJPA</class>
+      <class>nl.h2.ejb.schema.WmoDecisionJPA</class>
       <exclude-unlisted-classes>false</exclude-unlisted-classes>
       <properties>
           <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/postgres"/>

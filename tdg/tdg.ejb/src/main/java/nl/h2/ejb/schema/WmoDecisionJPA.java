@@ -8,7 +8,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "wmo_decisions", schema = "public", catalog = "postgres")
-public class WmoDecisionsJPA {
+public class WmoDecisionJPA {
     private long id;
     private boolean granted;
     private String reason;
@@ -61,7 +61,7 @@ public class WmoDecisionsJPA {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        WmoDecisionsJPA that = (WmoDecisionsJPA) o;
+        WmoDecisionJPA that = (WmoDecisionJPA) o;
 
         if (id != that.id) return false;
         if (granted != that.granted) return false;

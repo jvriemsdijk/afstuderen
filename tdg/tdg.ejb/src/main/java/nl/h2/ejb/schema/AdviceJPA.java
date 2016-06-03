@@ -14,7 +14,7 @@ public class AdviceJPA {
     private PersonJPA applicant;
     private List<ConditionJPA> currentConditions;
     private List<ConditionJPA> futureConditions;
-    private WmoDecisionsJPA decision;
+    private WmoDecisionJPA decision;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -85,11 +85,11 @@ public class AdviceJPA {
     }
 
     @OneToOne(mappedBy = "advice")
-    public WmoDecisionsJPA getDecision() {
+    public WmoDecisionJPA getDecision() {
         return decision;
     }
 
-    public void setDecision(WmoDecisionsJPA decision) {
+    public void setDecision(WmoDecisionJPA decision) {
         this.decision = decision;
     }
 }
