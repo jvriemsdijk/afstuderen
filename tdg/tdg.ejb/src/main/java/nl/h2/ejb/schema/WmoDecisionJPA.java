@@ -8,6 +8,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "wmo_decisions", schema = "public", catalog = "postgres")
+@NamedQueries({
+        @NamedQuery(name = "WmoDecision.findAll", query = "SELECT a FROM WmoDecisionJPA a"),
+        @NamedQuery(name = "WmoDecision.deleteAll", query = "DELETE FROM WmoDecisionJPA")
+})
 public class WmoDecisionJPA {
     private long id;
     private boolean granted;
@@ -56,30 +60,6 @@ public class WmoDecisionJPA {
         this.exception = exception;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        WmoDecisionJPA that = (WmoDecisionJPA) o;
-
-        if (id != that.id) return false;
-        if (granted != that.granted) return false;
-        if (exception != that.exception) return false;
-        if (reason != null ? !reason.equals(that.reason) : that.reason != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (granted ? 1 : 0);
-        result = 31 * result + (reason != null ? reason.hashCode() : 0);
-        result = 31 * result + (exception ? 1 : 0);
-        return result;
-    }
-
     @OneToOne
     @JoinColumn(name = "advice", referencedColumnName = "id", nullable = false)
     public AdviceJPA getAdvice() {
@@ -97,5 +77,30 @@ public class WmoDecisionJPA {
 
     public void setAdjustments(List<AdjustmentJPA> adjustments) {
         this.adjustments = adjustments;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WmoDecisionJPA that = (WmoDecisionJPA) o;
+
+        if (getId() != that.getId()) return false;
+        if (isGranted() != that.isGranted()) return false;
+        if (isException() != that.isException()) return false;
+        if (getReason() != null ? !getReason().equals(that.getReason()) : that.getReason() != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (isGranted() ? 1 : 0);
+        result = 31 * result + (getReason() != null ? getReason().hashCode() : 0);
+        result = 31 * result + (isException() ? 1 : 0);
+        return result;
     }
 }

@@ -102,10 +102,10 @@
 	            <version>4.10</version>
 	            <scope>test</scope>
 	        </dependency>
-	        <dependency>
-	            <groupId>com.oracle</groupId>
-	            <artifactId>ojdbc6</artifactId>
-	            <version>11.2.0.3</version>
+			<dependency>
+				<groupId>postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>9.1-901-1.jdbc4</version>
 	            <scope>test</scope>
 	        </dependency>
             <dependency>

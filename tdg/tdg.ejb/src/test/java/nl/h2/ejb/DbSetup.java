@@ -11,9 +11,10 @@ import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.ext.oracle.OracleDataTypeFactory;
+import org.dbunit.ext.postgresql.PostgresqlDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Test;
+import org.postgresql.Driver;
 
 import java.io.File;
 import java.sql.Connection;
@@ -37,7 +38,7 @@ public class DbSetup extends TestCase {
         System.out.println("### parameters ###");
         System.out.println(sp);
 
-        DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
+        DriverManager.registerDriver(new Driver());
 
         Connection conn = DriverManager.getConnection(sp.getDatabaseURL(),
                 sp.getDatabaseUser(),
@@ -45,8 +46,8 @@ public class DbSetup extends TestCase {
         IDatabaseConnection connection = new DatabaseConnection(conn, sp.getDatabaseUser());
 
         DatabaseConfig dbConfig = connection.getConfig();
-        dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new OracleDataTypeFactory());
-        dbConfig.setProperty(DatabaseConfig.FEATURE_SKIP_ORACLE_RECYCLEBIN_TABLES, true);
+        dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new PostgresqlDataTypeFactory());
+//        dbConfig.setProperty(DatabaseConfig.FEATURE_SKIP_ORACLE_RECYCLEBIN_TABLES, true);
 
         FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
         builder.setColumnSensing(true);

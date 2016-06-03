@@ -7,6 +7,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "adresses", schema = "public", catalog = "postgres")
+@NamedQueries({
+        @NamedQuery(name = "Adress.findAll", query = "SELECT a FROM AdressesJPA a"),
+        @NamedQuery(name = "Adress.deleteAll", query = "DELETE FROM AdressesJPA")
+})
 public class AdressesJPA {
     private long id;
     private String street;
@@ -87,6 +91,16 @@ public class AdressesJPA {
         this.country = country;
     }
 
+    @OneToOne(mappedBy = "adress")
+    public BagJPA getBag() {
+        return bag;
+    }
+
+    public void setBag(BagJPA bag) {
+        this.bag = bag;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -94,36 +108,27 @@ public class AdressesJPA {
 
         AdressesJPA that = (AdressesJPA) o;
 
-        if (id != that.id) return false;
-        if (number != that.number) return false;
-        if (street != null ? !street.equals(that.street) : that.street != null) return false;
-        if (zipcode != null ? !zipcode.equals(that.zipcode) : that.zipcode != null) return false;
-        if (numberAddon != null ? !numberAddon.equals(that.numberAddon) : that.numberAddon != null) return false;
-        if (city != null ? !city.equals(that.city) : that.city != null) return false;
-        if (country != null ? !country.equals(that.country) : that.country != null) return false;
+        if (getId() != that.getId()) return false;
+        if (getNumber() != that.getNumber()) return false;
+        if (getStreet() != null ? !getStreet().equals(that.getStreet()) : that.getStreet() != null) return false;
+        if (getZipcode() != null ? !getZipcode().equals(that.getZipcode()) : that.getZipcode() != null) return false;
+        if (getNumberAddon() != null ? !getNumberAddon().equals(that.getNumberAddon()) : that.getNumberAddon() != null)
+            return false;
+        if (getCity() != null ? !getCity().equals(that.getCity()) : that.getCity() != null) return false;
+        if (getCountry() != null ? !getCountry().equals(that.getCountry()) : that.getCountry() != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (street != null ? street.hashCode() : 0);
-        result = 31 * result + (zipcode != null ? zipcode.hashCode() : 0);
-        result = 31 * result + number;
-        result = 31 * result + (numberAddon != null ? numberAddon.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (country != null ? country.hashCode() : 0);
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (getStreet() != null ? getStreet().hashCode() : 0);
+        result = 31 * result + (getZipcode() != null ? getZipcode().hashCode() : 0);
+        result = 31 * result + getNumber();
+        result = 31 * result + (getNumberAddon() != null ? getNumberAddon().hashCode() : 0);
+        result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
+        result = 31 * result + (getCountry() != null ? getCountry().hashCode() : 0);
         return result;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "adress", nullable = false)
-    public BagJPA getBag() {
-        return bag;
-    }
-
-    public void setBag(BagJPA bag) {
-        this.bag = bag;
     }
 }

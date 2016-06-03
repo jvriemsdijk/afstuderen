@@ -7,6 +7,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "bag", schema = "public", catalog = "postgres")
+@NamedQueries({
+        @NamedQuery(name = "Bag.findAll", query = "SELECT b FROM BagJPA b"),
+        @NamedQuery(name = "Bag.deleteAll", query = "DELETE FROM BagJPA")
+})
 public class BagJPA {
     private long id;
     private short buildYear;
@@ -76,6 +80,17 @@ public class BagJPA {
         this.coordinates = coordinates;
     }
 
+    @OneToOne
+    @JoinColumn(name = "adress", referencedColumnName = "id", nullable = false)
+    public AdressesJPA getAdress() {
+        return adress;
+    }
+
+    public void setAdress(AdressesJPA adress) {
+        this.adress = adress;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -83,35 +98,28 @@ public class BagJPA {
 
         BagJPA bagJPA = (BagJPA) o;
 
-        if (id != bagJPA.id) return false;
-        if (buildYear != bagJPA.buildYear) return false;
-        if (buildingContour != null ? !buildingContour.equals(bagJPA.buildingContour) : bagJPA.buildingContour != null)
+        if (getId() != bagJPA.getId()) return false;
+        if (getBuildYear() != bagJPA.getBuildYear()) return false;
+        if (getBuildingContour() != null ? !getBuildingContour().equals(bagJPA.getBuildingContour()) : bagJPA.getBuildingContour() != null)
             return false;
-        if (usableSurface != null ? !usableSurface.equals(bagJPA.usableSurface) : bagJPA.usableSurface != null)
+        if (getUsableSurface() != null ? !getUsableSurface().equals(bagJPA.getUsableSurface()) : bagJPA.getUsableSurface() != null)
             return false;
-        if (usePurpose != null ? !usePurpose.equals(bagJPA.usePurpose) : bagJPA.usePurpose != null) return false;
-        if (coordinates != null ? !coordinates.equals(bagJPA.coordinates) : bagJPA.coordinates != null) return false;
+        if (getUsePurpose() != null ? !getUsePurpose().equals(bagJPA.getUsePurpose()) : bagJPA.getUsePurpose() != null)
+            return false;
+        if (getCoordinates() != null ? !getCoordinates().equals(bagJPA.getCoordinates()) : bagJPA.getCoordinates() != null)
+            return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (int) buildYear;
-        result = 31 * result + (buildingContour != null ? buildingContour.hashCode() : 0);
-        result = 31 * result + (usableSurface != null ? usableSurface.hashCode() : 0);
-        result = 31 * result + (usePurpose != null ? usePurpose.hashCode() : 0);
-        result = 31 * result + (coordinates != null ? coordinates.hashCode() : 0);
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (int) getBuildYear();
+        result = 31 * result + (getBuildingContour() != null ? getBuildingContour().hashCode() : 0);
+        result = 31 * result + (getUsableSurface() != null ? getUsableSurface().hashCode() : 0);
+        result = 31 * result + (getUsePurpose() != null ? getUsePurpose().hashCode() : 0);
+        result = 31 * result + (getCoordinates() != null ? getCoordinates().hashCode() : 0);
         return result;
-    }
-
-    @OneToOne(mappedBy = "bag")
-    public AdressesJPA getAdress() {
-        return adress;
-    }
-
-    public void setAdress(AdressesJPA adress) {
-        this.adress = adress;
     }
 }

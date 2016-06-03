@@ -8,6 +8,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "person", schema = "public", catalog = "postgres")
+@NamedQueries({
+        @NamedQuery(name = "Person.findAll", query = "SELECT a FROM PersonJPA a"),
+        @NamedQuery(name = "Person.deleteAll", query = "DELETE FROM PersonJPA")
+})
 public class PersonJPA {
     private long bsn;
     private List<AdviceJPA> advice;
@@ -21,23 +25,6 @@ public class PersonJPA {
 
     public void setBsn(long bsn) {
         this.bsn = bsn;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PersonJPA personJPA = (PersonJPA) o;
-
-        if (bsn != personJPA.bsn) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (bsn ^ (bsn >>> 32));
     }
 
     @OneToMany(mappedBy = "applicant")
@@ -56,5 +43,23 @@ public class PersonJPA {
 
     public void setResidence(List<HousingSituationJPA> residence) {
         this.residence = residence;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PersonJPA personJPA = (PersonJPA) o;
+
+        if (getBsn() != personJPA.getBsn()) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getBsn() ^ (getBsn() >>> 32));
     }
 }

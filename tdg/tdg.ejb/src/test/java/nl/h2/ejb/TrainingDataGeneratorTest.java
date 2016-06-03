@@ -68,10 +68,16 @@ public class TrainingDataGeneratorTest {
     }
 
     @Test
-    public void testSayHello() throws Exception {
+    public void testInitDataLoad() throws Exception {
 
-        assertEquals("Hello Johan", instance.sayHello("Johan"));
+        instance.initialDataLoad();
 
+    }
+
+
+    @Test
+    public void testClearData() throws Exception {
+        instance.clearData();
     }
 
 

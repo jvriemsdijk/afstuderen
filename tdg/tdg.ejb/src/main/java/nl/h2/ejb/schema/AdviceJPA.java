@@ -8,6 +8,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "advice", schema = "public", catalog = "postgres")
+@NamedQueries({
+        @NamedQuery(name = "Advice.findAll", query = "SELECT a FROM AdviceJPA a"),
+        @NamedQuery(name = "Advice.deleteAll", query = "DELETE FROM AdviceJPA")
+})
 public class AdviceJPA {
     private long id;
     private boolean goAhead;
@@ -34,26 +38,6 @@ public class AdviceJPA {
 
     public void setGoAhead(boolean goAhead) {
         this.goAhead = goAhead;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AdviceJPA adviceJPA = (AdviceJPA) o;
-
-        if (id != adviceJPA.id) return false;
-        if (goAhead != adviceJPA.goAhead) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (goAhead ? 1 : 0);
-        return result;
     }
 
     @ManyToOne
@@ -91,5 +75,26 @@ public class AdviceJPA {
 
     public void setDecision(WmoDecisionJPA decision) {
         this.decision = decision;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AdviceJPA adviceJPA = (AdviceJPA) o;
+
+        if (getId() != adviceJPA.getId()) return false;
+        if (isGoAhead() != adviceJPA.isGoAhead()) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (isGoAhead() ? 1 : 0);
+        return result;
     }
 }

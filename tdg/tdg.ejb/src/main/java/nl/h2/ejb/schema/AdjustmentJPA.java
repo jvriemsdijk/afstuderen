@@ -7,6 +7,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "adjustment", schema = "public", catalog = "postgres")
+@NamedQueries({
+        @NamedQuery(name = "Adjustment.findAll", query = "SELECT a FROM AdjustmentJPA a"),
+        @NamedQuery(name = "Adjustment.deleteAll", query = "DELETE FROM AdjustmentJPA")
+})
 public class AdjustmentJPA {
     private long id;
     private Double actualCost;
@@ -33,26 +37,6 @@ public class AdjustmentJPA {
         this.actualCost = actualCost;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AdjustmentJPA that = (AdjustmentJPA) o;
-
-        if (id != that.id) return false;
-        if (actualCost != null ? !actualCost.equals(that.actualCost) : that.actualCost != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (actualCost != null ? actualCost.hashCode() : 0);
-        return result;
-    }
-
     @OneToOne
     @JoinColumn(name = "adjustment_definition", referencedColumnName = "id", nullable = false)
     public AdjustmentDefinitionJPA getAdjustmentDefinition() {
@@ -71,5 +55,27 @@ public class AdjustmentJPA {
 
     public void setDecision(WmoDecisionJPA decision) {
         this.decision = decision;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AdjustmentJPA that = (AdjustmentJPA) o;
+
+        if (getId() != that.getId()) return false;
+        if (getActualCost() != null ? !getActualCost().equals(that.getActualCost()) : that.getActualCost() != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (getActualCost() != null ? getActualCost().hashCode() : 0);
+        return result;
     }
 }

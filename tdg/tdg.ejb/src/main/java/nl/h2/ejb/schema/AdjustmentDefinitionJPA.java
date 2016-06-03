@@ -8,6 +8,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "adjustment_definitions", schema = "public", catalog = "postgres")
+@NamedQueries({
+        @NamedQuery(name = "AdjustmentDefinition.findAll", query = "SELECT a FROM AdjustmentDefinitionJPA a"),
+        @NamedQuery(name = "AdjustmentDefinition.deleteAll", query = "DELETE FROM AdjustmentDefinitionJPA")
+})
 public class AdjustmentDefinitionJPA {
     private long id;
     private String name;
@@ -55,6 +59,16 @@ public class AdjustmentDefinitionJPA {
         this.costMargin = costMargin;
     }
 
+    @ManyToMany(mappedBy = "adjustments")
+    public List<ConditionJPA> getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(List<ConditionJPA> conditions) {
+        this.conditions = conditions;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,10 +76,11 @@ public class AdjustmentDefinitionJPA {
 
         AdjustmentDefinitionJPA that = (AdjustmentDefinitionJPA) o;
 
-        if (id != that.id) return false;
-        if (Double.compare(that.averageCost, averageCost) != 0) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (costMargin != null ? !costMargin.equals(that.costMargin) : that.costMargin != null) return false;
+        if (getId() != that.getId()) return false;
+        if (Double.compare(that.getAverageCost(), getAverageCost()) != 0) return false;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+        if (getCostMargin() != null ? !getCostMargin().equals(that.getCostMargin()) : that.getCostMargin() != null)
+            return false;
 
         return true;
     }
@@ -74,20 +89,11 @@ public class AdjustmentDefinitionJPA {
     public int hashCode() {
         int result;
         long temp;
-        result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        temp = Double.doubleToLongBits(averageCost);
+        result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        temp = Double.doubleToLongBits(getAverageCost());
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (costMargin != null ? costMargin.hashCode() : 0);
+        result = 31 * result + (getCostMargin() != null ? getCostMargin().hashCode() : 0);
         return result;
-    }
-
-    @ManyToMany(mappedBy = "adjustments")
-    public List<ConditionJPA> getConditions() {
-        return conditions;
-    }
-
-    public void setConditions(List<ConditionJPA> conditions) {
-        this.conditions = conditions;
     }
 }

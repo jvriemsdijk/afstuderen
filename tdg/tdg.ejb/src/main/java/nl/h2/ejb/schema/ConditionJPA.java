@@ -8,6 +8,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "conditions", schema = "public", catalog = "postgres")
+@NamedQueries({
+        @NamedQuery(name = "Condition.findAll", query = "SELECT c FROM ConditionJPA c"),
+        @NamedQuery(name = "Condition.deleteAll", query = "DELETE FROM ConditionJPA")
+})
 public class ConditionJPA {
     private long id;
     private String name;
@@ -44,28 +48,6 @@ public class ConditionJPA {
         this.chronic = chronic;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ConditionJPA that = (ConditionJPA) o;
-
-        if (id != that.id) return false;
-        if (chronic != that.chronic) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (chronic ? 1 : 0);
-        return result;
-    }
-
     @ManyToMany
     @JoinTable(name = "adjustment_condition", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "condition", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "adjustment", referencedColumnName = "id", nullable = false))
     public List<AdjustmentDefinitionJPA> getAdjustments() {
@@ -74,5 +56,28 @@ public class ConditionJPA {
 
     public void setAdjustments(List<AdjustmentDefinitionJPA> adjustments) {
         this.adjustments = adjustments;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ConditionJPA that = (ConditionJPA) o;
+
+        if (getId() != that.getId()) return false;
+        if (isChronic() != that.isChronic()) return false;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (isChronic() ? 1 : 0);
+        return result;
     }
 }
