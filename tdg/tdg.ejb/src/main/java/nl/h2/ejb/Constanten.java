@@ -14,6 +14,17 @@ public final class Constanten {
     public static final String ONVOLDOENDE_PARAMETERS = "H2_ALG_005";
     
     // Applicatie foutcodes
+    public static final String ERR_NUMBER_OF_RECORDS_TOO_LOW = "TDG_001";
+    public static final String ERR_MEAN_NUMBER_OF_APPLICATIONS_TOO_LOW = "TDG_002";
+    public static final String ERR_SIGMA_NUMBER_OF_APPLICATIONS_TOO_LOW = "TDG_003";
+    public static final String ERR_MEAN_HOUSEHOLD_SIZE_TOO_LOW = "TDG_004";
+    public static final String ERR_SIGMA_HOUSEHOLD_SIZE_TOO_LOW = "TDG_005";
+    public static final String ERR_SIGMA_NUMBER_APPLICATIONS_TOO_HIGH = "TDG_006";
+    public static final String ERR_SIGMA_HOUSEHOLD_SIZE_TOO_HIGH = "TDG_007";
+//    public static final String ERR_SIGMA_HOUSEHOLD_SIZE_TOO_LOW = "TDG_005";
+//    public static final String ERR_SIGMA_HOUSEHOLD_SIZE_TOO_LOW = "TDG_005";
+//    public static final String ERR_SIGMA_HOUSEHOLD_SIZE_TOO_LOW = "TDG_005";
+
 
     public static String getModule() {
         return MODULE_NAAM + " " + MODULE_VERSIE;

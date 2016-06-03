@@ -11,6 +11,7 @@ public class AdjustmentJPA {
     private long id;
     private Double actualCost;
     private AdjustmentDefinitionJPA adjustmentDefinition;
+    private WmoDecisionsJPA decision;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -60,5 +61,15 @@ public class AdjustmentJPA {
 
     public void setAdjustmentDefinition(AdjustmentDefinitionJPA adjustmentDefinition) {
         this.adjustmentDefinition = adjustmentDefinition;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "wmo_decision", referencedColumnName = "id")
+    public WmoDecisionsJPA getDecision() {
+        return decision;
+    }
+
+    public void setDecision(WmoDecisionsJPA decision) {
+        this.decision = decision;
     }
 }
