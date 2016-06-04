@@ -40,7 +40,7 @@ public class AdviceJPA {
         this.goAhead = goAhead;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "applicant", referencedColumnName = "bsn")
     public PersonJPA getApplicant() {
         return applicant;
@@ -50,7 +50,7 @@ public class AdviceJPA {
         this.applicant = applicant;
     }
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     public List<ConditionJPA> getCurrentConditions() {
         return currentConditions;
     }
@@ -59,7 +59,7 @@ public class AdviceJPA {
         this.currentConditions = currentConditions;
     }
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     public List<ConditionJPA> getFutureConditions() {
         return futureConditions;
     }
@@ -68,7 +68,7 @@ public class AdviceJPA {
         this.futureConditions = futureConditions;
     }
 
-    @OneToOne(mappedBy = "advice")
+    @OneToOne(mappedBy = "advice", cascade = CascadeType.ALL)
     public WmoDecisionJPA getDecision() {
         return decision;
     }

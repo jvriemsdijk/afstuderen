@@ -37,7 +37,7 @@ public class AdjustmentJPA {
         this.actualCost = actualCost;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "adjustment_definition", referencedColumnName = "id", nullable = false)
     public AdjustmentDefinitionJPA getAdjustmentDefinition() {
         return adjustmentDefinition;
@@ -47,7 +47,7 @@ public class AdjustmentJPA {
         this.adjustmentDefinition = adjustmentDefinition;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "wmo_decision", referencedColumnName = "id")
     public WmoDecisionJPA getDecision() {
         return decision;

@@ -27,7 +27,7 @@ public class PersonJPA {
         this.bsn = bsn;
     }
 
-    @OneToMany(mappedBy = "applicant")
+    @OneToMany(mappedBy = "applicant", cascade = CascadeType.ALL)
     public List<AdviceJPA> getAdvice() {
         return advice;
     }
@@ -36,7 +36,7 @@ public class PersonJPA {
         this.advice = advice;
     }
 
-    @ManyToMany(mappedBy = "residents")
+    @ManyToMany(mappedBy = "residents", cascade = CascadeType.ALL)
     public List<HousingSituationJPA> getResidence() {
         return residence;
     }

@@ -1,16 +1,29 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-    
-    <!--<entiteiten id="1" naam="OMV" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit" />-->
-    <!---->
-    <!--<types id="1" naam="OLO_NUMMER" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit" />-->
-    <!--<types id="2" naam="BSN" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit" />-->
-    <!---->
-    <!--<relaties id="1" naam="key" entiteit="1" type="1" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit" />-->
-    <!--<relaties id="2" naam="Aanvrager" entiteit="1" type="2" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit" />-->
 
-    <!--<instanties id="1" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit" />-->
+    <!-- Conditions -->
+    <condition id="1" name="Minor mobility impairment" chronic="false" />
+    <condition id="2" name="Medium mobility impairment" chronic="false" />
+    <condition id="3" name="Severe mobility impairment" chronic="false" />
+    <condition id="4" name="Wheelchair bound" chronic="false" />
+    <condition id="5" name="Minor mobility impairment - Chronic" chronic="true" />
+    <condition id="6" name="Medium mobility impairment - Chronic" chronic="true" />
+    <condition id="7" name="Severe mobility impairment - Chronic" chronic="true" />
+    <condition id="8" name="Wheelchair bound - Chronic" chronic="true" />
 
-    <!--<waarden id="1" relatie="1" waarde="1" instantie="1" mutatiedatum="2012-01-10 12:00:00" mutatiedoor="dbunit"/>-->
-    
+    <!-- Adjustment definitions -->
+    <!--<public.adjustment_definitions id="1" name="Entryway even flooring" average_cost="300.0" cost_margin="50.0" />-->
+    <!--<public.adjustment_definitions id="2" name="Even doorway" average_cost="100.0" cost_margin="20.0" />-->
+
+    <!--&lt;!&ndash; Condition - Adjustment definition links &ndash;&gt;-->
+    <!--<public.adjustment_condition adjustment="1" condition="4" />-->
+    <!--<public.adjustment_condition adjustment="1" condition="8" />-->
+    <!--<public.adjustment_condition adjustment="1" condition="3" />-->
+    <!--<public.adjustment_condition adjustment="1" condition="7" />-->
+    <!--<public.adjustment_condition adjustment="2" condition="3" />-->
+    <!--<public.adjustment_condition adjustment="2" condition="4" />-->
+    <!--<public.adjustment_condition adjustment="2" condition="6" />-->
+    <!--<public.adjustment_condition adjustment="2" condition="7" />-->
+    <!--<public.adjustment_condition adjustment="2" condition="8" />-->
+
 </dataset>

@@ -91,7 +91,7 @@ public class AdressesJPA {
         this.country = country;
     }
 
-    @OneToOne(mappedBy = "adress")
+    @OneToOne(mappedBy = "adress", cascade = CascadeType.ALL)
     public BagJPA getBag() {
         return bag;
     }

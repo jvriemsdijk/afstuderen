@@ -59,7 +59,8 @@ public class AdjustmentDefinitionJPA {
         this.costMargin = costMargin;
     }
 
-    @ManyToMany(mappedBy = "adjustments")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "adjustment_condition", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "adjustment", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "condition", referencedColumnName = "id", nullable = false))
     public List<ConditionJPA> getConditions() {
         return conditions;
     }

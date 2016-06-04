@@ -80,7 +80,7 @@ public class BagJPA {
         this.coordinates = coordinates;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "adress", referencedColumnName = "id", nullable = false)
     public AdressesJPA getAdress() {
         return adress;

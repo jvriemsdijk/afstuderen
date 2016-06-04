@@ -58,7 +58,7 @@ public class HousingSituationJPA {
         this.adjustments = adjustments;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "housing_situation", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "person", referencedColumnName = "bsn", nullable = false))
     public List<PersonJPA> getResidents() {
         return residents;

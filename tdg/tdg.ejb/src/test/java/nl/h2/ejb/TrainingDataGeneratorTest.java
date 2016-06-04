@@ -67,17 +67,28 @@ public class TrainingDataGeneratorTest {
     public void tearDown() {
     }
 
+
     @Test
-    public void testInitDataLoad() throws Exception {
+    public void testClearData() throws Exception {
 
-        instance.initialDataLoad();
+        // Clear data
+        instance.clearData();
 
+        // TODO : test for succesful data removal
     }
 
 
     @Test
-    public void testClearData() throws Exception {
+    public void testInitDataLoad() throws Exception {
+
+        // Clear data
         instance.clearData();
+
+        // Initial data load
+        instance.initialDataLoad();
+
+        // TODO : test for succesful data load
+
     }
 
 

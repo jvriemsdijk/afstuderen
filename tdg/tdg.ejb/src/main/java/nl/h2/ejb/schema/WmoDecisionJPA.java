@@ -60,7 +60,7 @@ public class WmoDecisionJPA {
         this.exception = exception;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "advice", referencedColumnName = "id", nullable = false)
     public AdviceJPA getAdvice() {
         return advice;
@@ -70,7 +70,7 @@ public class WmoDecisionJPA {
         this.advice = advice;
     }
 
-    @OneToMany(mappedBy = "decision")
+    @OneToMany(mappedBy = "decision", cascade = CascadeType.ALL)
     public List<AdjustmentJPA> getAdjustments() {
         return adjustments;
     }
