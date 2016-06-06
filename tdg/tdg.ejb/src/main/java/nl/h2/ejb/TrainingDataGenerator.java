@@ -2,6 +2,7 @@ package nl.h2.ejb;
 
 import nl.h2.ejb.schema.AdjustmentDefinitionJPA;
 import nl.h2.ejb.schema.ConditionJPA;
+import nl.h2.ejb.schema.WmoDecisionJPA;
 import nl.h2.utils.exception.ApplicatieException;
 import org.apache.log4j.Logger;
 
@@ -10,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -86,12 +88,20 @@ public class TrainingDataGenerator {
     public void clearData() throws Exception {
 
         // Clear all conditions
-        Query q = entityManager.createNamedQuery("Condition.deleteAll");
-        q.executeUpdate();
-        q = entityManager.createNamedQuery("AdjustmentDefinition.deleteAll");
-        q.executeUpdate();
-        System.out.println("Called clear data");
+        Query q = entityManager.createNamedQuery("Condition.findAll");
+        List<ConditionJPA> conditions = q.getResultList();
 
+        for (ConditionJPA condition : conditions) {
+            entityManager.remove(condition);
+            entityManager.flush();
+        }
+
+        q = entityManager.createNamedQuery("AdjustmentDefinition.findAll");
+        List<AdjustmentDefinitionJPA> adjustments = q.getResultList();
+        for (AdjustmentDefinitionJPA adjustment : adjustments) {
+            entityManager.remove(adjustment);
+            entityManager.flush();
+        }
     }
 
 
@@ -167,6 +177,22 @@ public class TrainingDataGenerator {
         entityManager.persist(wheelchairBoundChronic);
         entityManager.flush();
 
+        // Impaired motor function - arms
+        ConditionJPA impairedMotorFunctionArms = new ConditionJPA();
+        impairedMotorFunctionArms.setId(9);
+        impairedMotorFunctionArms.setName("Impaired motor function - arms");
+        impairedMotorFunctionArms.setChronic(true);
+        entityManager.persist(impairedMotorFunctionArms);
+        entityManager.flush();
+
+        // Obesitas
+        ConditionJPA obesistas = new ConditionJPA();
+        obesistas.setId(10);
+        obesistas.setName("Obesistas");
+        obesistas.setChronic(true);
+        entityManager.persist(obesistas);
+        entityManager.flush();
+
 
 
         /*
@@ -200,13 +226,13 @@ public class TrainingDataGenerator {
         entityManager.persist(betweenSteps);
         entityManager.flush();
 
-        // Standing elevator
-        AdjustmentDefinitionJPA standingElevator = new AdjustmentDefinitionJPA();
-        standingElevator.setId(4);
-        standingElevator.setName("Standing elevator");
-        standingElevator.setAverageCost(5000.0);
-        standingElevator.setCostMargin(500.0);
-        entityManager.persist(standingElevator);
+        // Standing stair elevator
+        AdjustmentDefinitionJPA stairElevatorStanding = new AdjustmentDefinitionJPA();
+        stairElevatorStanding.setId(4);
+        stairElevatorStanding.setName("Standing stair elevator");
+        stairElevatorStanding.setAverageCost(5000.0);
+        stairElevatorStanding.setCostMargin(500.0);
+        entityManager.persist(stairElevatorStanding);
         entityManager.flush();
 
         // Doorstep helper
@@ -380,6 +406,17 @@ public class TrainingDataGenerator {
         entityManager.persist(supportPole);
         entityManager.flush();
 
+        // Stair elevator seat
+        AdjustmentDefinitionJPA stairElevatorSeat = new AdjustmentDefinitionJPA();
+        stairElevatorSeat.setId(24);
+        stairElevatorSeat.setName("Stair elevator seat");
+        stairElevatorSeat.setAverageCost(5000.0);
+        stairElevatorSeat.setCostMargin(500.0);
+        entityManager.persist(stairElevatorSeat);
+        entityManager.flush();
+
+
+
 
 
 
@@ -388,6 +425,128 @@ public class TrainingDataGenerator {
         Connect conditions and adjustments
          */
 
+        // Adjustments for minor movement impairment
+        minorMovementImpairment.setAdjustments(new ArrayList<AdjustmentDefinitionJPA>(3));
+        minorMovementImpairment.getAdjustments().add(antiSlipMat);
+        minorMovementImpairment.getAdjustments().add(showerSeat);
+        minorMovementImpairment.getAdjustments().add(armrests);
+        entityManager.merge(minorMovementImpairment);
+        entityManager.flush();
+
+        // Adjustments for medium movement impairment
+        mediumMovementImpairment.setAdjustments(new ArrayList<AdjustmentDefinitionJPA>(6));
+        mediumMovementImpairment.getAdjustments().add(antiSlipMat);
+        mediumMovementImpairment.getAdjustments().add(showerSeat);
+        mediumMovementImpairment.getAdjustments().add(armrests);
+        mediumMovementImpairment.getAdjustments().add(toiletSeatWithArmrests);
+        mediumMovementImpairment.getAdjustments().add(heightendToiletSeat);
+        mediumMovementImpairment.getAdjustments().add(betweenSteps);
+        entityManager.merge(mediumMovementImpairment);
+        entityManager.flush();
+
+        // Adjustments for severe movement impairment
+        severeMovementImpairment.setAdjustments(new ArrayList<AdjustmentDefinitionJPA>());
+        severeMovementImpairment.getAdjustments().add(antiSlipMat);
+        severeMovementImpairment.getAdjustments().add(showerSeat);
+        severeMovementImpairment.getAdjustments().add(armrests);
+        severeMovementImpairment.getAdjustments().add(toiletBackSupport);
+        severeMovementImpairment.getAdjustments().add(toiletSeatWithArmrests);
+        severeMovementImpairment.getAdjustments().add(heightendToiletSeat);
+        severeMovementImpairment.getAdjustments().add(doorstepHelper);
+        severeMovementImpairment.getAdjustments().add(supportPole);
+        severeMovementImpairment.getAdjustments().add(stairElevatorSeat);
+        severeMovementImpairment.getAdjustments().add(stairElevatorStanding);
+        entityManager.merge(severeMovementImpairment);
+        entityManager.flush();
+        
+        // Adjustments for wheelchair bound
+        wheelchairBound.setAdjustments(new ArrayList<AdjustmentDefinitionJPA>(7));
+        wheelchairBound.getAdjustments().add(doorstepHelper);
+        wheelchairBound.getAdjustments().add(handGrips);
+        wheelchairBound.getAdjustments().add(supportPole);
+        wheelchairBound.getAdjustments().add(stairElevatorSeat);
+        wheelchairBound.getAdjustments().add(showerSeat);
+        wheelchairBound.getAdjustments().add(passivePatientElevator);
+        wheelchairBound.getAdjustments().add(heightendToiletSeat);
+        entityManager.merge(wheelchairBound);
+        entityManager.flush();
+
+        // Adjustments for chronic minor movement impairment
+        minorMovementImpairmentChronic.setAdjustments(new ArrayList<AdjustmentDefinitionJPA>(7));
+        minorMovementImpairmentChronic.getAdjustments().add(antiSlipMat);
+        minorMovementImpairmentChronic.getAdjustments().add(showerSeat);
+        minorMovementImpairmentChronic.getAdjustments().add(armrests);
+        minorMovementImpairmentChronic.getAdjustments().add(heightendToiletSeat);
+        minorMovementImpairmentChronic.getAdjustments().add(doorstepHelper);
+        minorMovementImpairmentChronic.getAdjustments().add(handGrips);
+        minorMovementImpairmentChronic.getAdjustments().add(handrail);
+        entityManager.merge(minorMovementImpairmentChronic);
+        entityManager.flush();
+        
+        // Adjustments for chronic medium movement impairment
+        mediumMovementImpairmentChronic.setAdjustments(new ArrayList<AdjustmentDefinitionJPA>());
+        mediumMovementImpairmentChronic.getAdjustments().add(antiSlipMat);
+        mediumMovementImpairmentChronic.getAdjustments().add(showerSeat);
+        mediumMovementImpairmentChronic.getAdjustments().add(armrests);
+        mediumMovementImpairmentChronic.getAdjustments().add(handGrips);
+        mediumMovementImpairmentChronic.getAdjustments().add(handrail);
+        mediumMovementImpairmentChronic.getAdjustments().add(betweenSteps);
+        mediumMovementImpairmentChronic.getAdjustments().add(doorstepHelper);
+        mediumMovementImpairmentChronic.getAdjustments().add(heightendToilet);
+        mediumMovementImpairmentChronic.getAdjustments().add(toiletBackSupport);
+        mediumMovementImpairmentChronic.getAdjustments().add(stairElevatorStanding);
+        entityManager.merge(mediumMovementImpairmentChronic);
+        entityManager.flush();
+        
+        // Adjustments for chronic severe movement impairment
+        severeMovementImpairmentChronic.setAdjustments(new ArrayList<AdjustmentDefinitionJPA>());
+        severeMovementImpairmentChronic.getAdjustments().add(antiSlipMat);
+        severeMovementImpairmentChronic.getAdjustments().add(showerSeat);
+        severeMovementImpairmentChronic.getAdjustments().add(armrests);
+        severeMovementImpairmentChronic.getAdjustments().add(handGrips);
+        severeMovementImpairmentChronic.getAdjustments().add(handrail);
+        severeMovementImpairmentChronic.getAdjustments().add(doorstepHelper);
+        severeMovementImpairmentChronic.getAdjustments().add(heightendToilet);
+        severeMovementImpairmentChronic.getAdjustments().add(toiletBackSupport);
+        severeMovementImpairmentChronic.getAdjustments().add(bidetToiletSeat);
+        severeMovementImpairmentChronic.getAdjustments().add(stairElevatorSeat);
+        entityManager.merge(severeMovementImpairmentChronic);
+        entityManager.flush();
+
+        // Adjustments for chronic wheelchair bound
+        wheelchairBoundChronic.setAdjustments(new ArrayList<AdjustmentDefinitionJPA>(12));
+        wheelchairBoundChronic.getAdjustments().add(showerSeat);
+        wheelchairBoundChronic.getAdjustments().add(handGrips);
+        wheelchairBoundChronic.getAdjustments().add(handrail);
+        wheelchairBoundChronic.getAdjustments().add(supportPole);
+        wheelchairBoundChronic.getAdjustments().add(doorstepHelper);
+        wheelchairBoundChronic.getAdjustments().add(heightAdjustableKitchen);
+        wheelchairBoundChronic.getAdjustments().add(electricalDoor);
+        wheelchairBoundChronic.getAdjustments().add(plateauElevator);
+        wheelchairBoundChronic.getAdjustments().add(stairElevatorSeat);
+        wheelchairBoundChronic.getAdjustments().add(bidetToilet);
+        wheelchairBoundChronic.getAdjustments().add(toiletBackSupport);
+        wheelchairBoundChronic.getAdjustments().add(heightendToilet);
+        entityManager.merge(wheelchairBoundChronic);
+        entityManager.flush();
+
+        // Adjustments for impaired motor functions in the arms
+        impairedMotorFunctionArms.setAdjustments(new ArrayList<AdjustmentDefinitionJPA>(4));
+        impairedMotorFunctionArms.getAdjustments().add(toiletSeatWithArmrests);
+        impairedMotorFunctionArms.getAdjustments().add(armrests);
+        impairedMotorFunctionArms.getAdjustments().add(bidetToilet);
+        impairedMotorFunctionArms.getAdjustments().add(bidetToiletSeat);
+        entityManager.merge(impairedMotorFunctionArms);
+        entityManager.flush();
+
+        // Adjustments for obesistas
+        obesistas.setAdjustments(new ArrayList<AdjustmentDefinitionJPA>(4));
+        obesistas.getAdjustments().add(wideToiletSeat);
+        obesistas.getAdjustments().add(handGrips);
+        obesistas.getAdjustments().add(bidetToilet);
+        obesistas.getAdjustments().add(armrests);
+        entityManager.merge(obesistas);
+        entityManager.flush();
 
 
 //
@@ -410,6 +569,18 @@ public class TrainingDataGenerator {
 
         // For extra applications add conditions to the original condition list
     }
+
+
+    public WmoDecisionJPA createWmoDecision(long adviceId) throws Exception {
+
+        WmoDecisionJPA wmoDecision = new WmoDecisionJPA();
+
+
+
+        return  wmoDecision;
+
+    }
+
 
 
     private double calculateAbsoluteGaussian(double mean, double sigma) {
