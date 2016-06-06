@@ -92,4 +92,12 @@ public class TrainingDataGeneratorTest {
     }
 
 
+    @Test
+    public void testGenerateTrainingData() throws Exception {
+
+        instance.generateTrainingData(10, 1.5, 0.2, 1.2, 0.1, null);
+
+    }
+
+
 }
