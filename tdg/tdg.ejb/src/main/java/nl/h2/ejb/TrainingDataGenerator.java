@@ -769,6 +769,8 @@ public class TrainingDataGenerator {
         entityManager.merge(proposedAdjustments.get(0));
         entityManager.flush();
 
+        entityManager.clear();
+
     }
 
 
