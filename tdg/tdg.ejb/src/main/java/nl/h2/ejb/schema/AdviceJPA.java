@@ -20,7 +20,7 @@ public class AdviceJPA {
     private List<ConditionJPA> futureConditions;
     private WmoDecisionJPA decision;
 
-    @Id
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public long getId() {
         return id;
@@ -50,7 +50,8 @@ public class AdviceJPA {
         this.applicant = applicant;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "advice_current_condition", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "advice", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "condition", referencedColumnName = "id", nullable = false))
     public List<ConditionJPA> getCurrentConditions() {
         return currentConditions;
     }
@@ -59,7 +60,8 @@ public class AdviceJPA {
         this.currentConditions = currentConditions;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "advice_future_condition", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "advice", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "condition", referencedColumnName = "id", nullable = false))
     public List<ConditionJPA> getFutureConditions() {
         return futureConditions;
     }

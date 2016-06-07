@@ -20,7 +20,7 @@ public class WmoDecisionJPA {
     private AdviceJPA advice;
     private List<AdjustmentJPA> adjustments;
 
-    @Id
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public long getId() {
         return id;

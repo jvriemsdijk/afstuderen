@@ -3,9 +3,12 @@ package nl.h2.ejb;
 import nl.h2.ejb.schema.*;
 import nl.h2.utils.exception.ApplicatieException;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
+import org.hibernate.mapping.Bag;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.*;
@@ -26,6 +29,7 @@ public class TrainingDataGenerator {
 
 
     private final double BUDGET = 7200.0;
+    private int baseBsn = 923345456;
     private Random random = null;
     private Map<ConditionJPA, Double> conditionProbabilityMap = new HashMap<ConditionJPA, Double>();
     private List<ConditionJPA> allConditions = new ArrayList<ConditionJPA>();
@@ -86,7 +90,7 @@ public class TrainingDataGenerator {
                 createApplicant(numberOfApplications, householdSize);
 
                 // Increase total number of applications
-                totalNumberOfApplications += numberOfApplicants;
+                totalNumberOfApplications += numberOfApplications;
 
                 // If the number of records is equal to the number of applications, break
                 if (totalNumberOfApplications == numberOfRecords) {
@@ -105,26 +109,46 @@ public class TrainingDataGenerator {
 
     public void clearData() throws Exception {
 
+        LOGGER.info("Start clearData();");
+
         // Clear all class data
         conditionProbabilityMap.clear();
         allConditions.clear();
         allAdjustments.clear();
 
-        // Clear all conditions
-        Query q = entityManager.createNamedQuery("Condition.findAll");
-        List<ConditionJPA> conditions = q.getResultList();
-        for (ConditionJPA condition : conditions) {
-            entityManager.remove(condition);
-            entityManager.flush();
-        }
+        Query removeConditionsAdjustments = entityManager.createNativeQuery("DELETE FROM adjustment_condition");
+        Query removeAdviceCurrentConditions = entityManager.createNativeQuery("DELETE FROM advice_current_condition");
+        Query removeAdviceFutureConditions = entityManager.createNativeQuery("DELETE FROM advice_future_condition");
+        Query removeApplicantHistory = entityManager.createNativeQuery("DELETE FROM applicant_history");
+        Query removeHousingAdjustments = entityManager.createNativeQuery("DELETE FROM housing_adjustments");
+        Query removeResidents = entityManager.createNativeQuery("DELETE FROM residents");
+        Query removeConditions = entityManager.createNativeQuery("DELETE FROM conditions");
+        Query removeAdjustments = entityManager.createNativeQuery("DELETE FROM adjustment");
+        Query removeAdjustmentDefinitions = entityManager.createNativeQuery("DELETE FROM adjustment_definitions");
+        Query removeAdvice = entityManager.createNativeQuery("DELETE FROM advice");
+        Query removeBag = entityManager.createNativeQuery("DELETE FROM bag");
+        Query removeAdresses = entityManager.createNativeQuery("DELETE FROM adresses");
+        Query removeHousingSituations = entityManager.createNativeQuery("DELETE FROM housing_situation");
+        Query removeWmoDecisions = entityManager.createNativeQuery("DELETE FROM wmo_decisions");
+        Query removePersons = entityManager.createNativeQuery("DELETE FROM person");
 
-        // Clear all adjustment definitions
-        q = entityManager.createNamedQuery("AdjustmentDefinition.findAll");
-        List<AdjustmentDefinitionJPA> adjustments = q.getResultList();
-        for (AdjustmentDefinitionJPA adjustment : adjustments) {
-            entityManager.remove(adjustment);
-            entityManager.flush();
-        }
+        removeConditionsAdjustments.executeUpdate();
+        removeAdviceCurrentConditions.executeUpdate();
+        removeAdviceFutureConditions.executeUpdate();
+        removeApplicantHistory.executeUpdate();
+        removeHousingAdjustments.executeUpdate();
+        removeResidents.executeUpdate();
+        removeConditions.executeUpdate();
+        removeWmoDecisions.executeUpdate();
+        removeAdvice.executeUpdate();
+        removeBag.executeUpdate();
+        removeAdresses.executeUpdate();
+        removeHousingSituations.executeUpdate();
+        removePersons.executeUpdate();
+        removeAdjustments.executeUpdate();
+        removeAdjustmentDefinitions.executeUpdate();
+
+        LOGGER.info("End clearData();");
     }
 
     /**
@@ -134,6 +158,8 @@ public class TrainingDataGenerator {
      * @throws Exception
      */
     public void initialDataLoad() throws Exception {
+
+        LOGGER.info("Start initialDataLoad();");
 
         /*
         Conditions
@@ -619,11 +645,7 @@ public class TrainingDataGenerator {
         entityManager.flush();
 
 
-//
-//        } catch (Exception e) {
-//            throw new ApplicatieException(Constanten.FOUT_ONBEKENDE_FOUT);
-//        }
-
+        LOGGER.info("End initialDataLoad();");
 
     }
 
@@ -632,6 +654,8 @@ public class TrainingDataGenerator {
 
         // Create a new person
         PersonJPA person = new PersonJPA();
+        baseBsn++;
+        person.setBsn(baseBsn);
         entityManager.persist(person);
         entityManager.flush();
 
@@ -725,12 +749,15 @@ public class TrainingDataGenerator {
             // Calculate cost of the definition
             proposedAdjustment.setActualCost(calculateAbsoluteGaussian(selectedAdjustment.getAverageCost(), selectedAdjustment.getCostMargin()));
 
+            // Add the proposed adjustment to the list
+            proposedAdjustments.add(proposedAdjustment);
+        }
+
+        for (AdjustmentJPA proposedAdjustment : proposedAdjustments) {
+
             // Save the proposed adjustment
             entityManager.merge(proposedAdjustment);
             entityManager.flush();
-
-            // Add the proposed adjustment to the list
-            proposedAdjustments.add(proposedAdjustment);
         }
 
 
@@ -738,6 +765,7 @@ public class TrainingDataGenerator {
         WmoDecisionJPA decision = judgeApplication(person, housingSituationJPA, proposedAdjustments, advice, remainingBudget);
 
         // TODO : Other stuff with the WMO decision???
+        decision.setAdjustments(proposedAdjustments);
 
         // Save decision
         entityManager.merge(decision);
@@ -796,9 +824,7 @@ public class TrainingDataGenerator {
                     decision.setReason("Application rejected due to high costs.");
                 }
 
-
             }
-
 
         } else {
             // In the case of no go ahead, the application will not be granted
@@ -856,6 +882,7 @@ public class TrainingDataGenerator {
             currentRand += conditionProbabilityMap.get(conditionJPA);
             if (rand < currentRand) {
                 randomCondition = conditionJPA;
+                break;
             }
         }
 
@@ -873,7 +900,6 @@ public class TrainingDataGenerator {
                 conditionList.add(randomCondition);
             }
         }
-
 
         return conditionList;
     }

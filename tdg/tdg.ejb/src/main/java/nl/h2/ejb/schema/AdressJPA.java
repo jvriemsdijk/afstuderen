@@ -8,10 +8,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "adresses", schema = "public", catalog = "postgres")
 @NamedQueries({
-        @NamedQuery(name = "Adress.findAll", query = "SELECT a FROM AdressesJPA a"),
-        @NamedQuery(name = "Adress.deleteAll", query = "DELETE FROM AdressesJPA")
+        @NamedQuery(name = "Adress.findAll", query = "SELECT a FROM AdressJPA a"),
+        @NamedQuery(name = "Adress.deleteAll", query = "DELETE FROM AdressJPA")
 })
-public class AdressesJPA {
+public class AdressJPA {
     private long id;
     private String street;
     private String zipcode;
@@ -21,7 +21,7 @@ public class AdressesJPA {
     private String country;
     private BagJPA bag;
 
-    @Id
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public long getId() {
         return id;
@@ -106,7 +106,7 @@ public class AdressesJPA {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AdressesJPA that = (AdressesJPA) o;
+        AdressJPA that = (AdressJPA) o;
 
         if (getId() != that.getId()) return false;
         if (getNumber() != that.getNumber()) return false;

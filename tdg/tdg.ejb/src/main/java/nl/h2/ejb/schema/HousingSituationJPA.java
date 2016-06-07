@@ -19,7 +19,7 @@ public class HousingSituationJPA {
     private List<AdjustmentJPA> adjustments;
     private List<PersonJPA> residents;
 
-    @Id
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public long getId() {
         return id;

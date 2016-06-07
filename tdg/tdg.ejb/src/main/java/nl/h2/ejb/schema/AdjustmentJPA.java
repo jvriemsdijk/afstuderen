@@ -17,7 +17,7 @@ public class AdjustmentJPA {
     private AdjustmentDefinitionJPA adjustmentDefinition;
     private WmoDecisionJPA decision;
 
-    @Id
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public long getId() {
         return id;
@@ -37,7 +37,7 @@ public class AdjustmentJPA {
         this.actualCost = actualCost;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "adjustment_definition", referencedColumnName = "id", nullable = false)
     public AdjustmentDefinitionJPA getAdjustmentDefinition() {
         return adjustmentDefinition;
@@ -47,7 +47,7 @@ public class AdjustmentJPA {
         this.adjustmentDefinition = adjustmentDefinition;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "wmo_decision", referencedColumnName = "id")
     public WmoDecisionJPA getDecision() {
         return decision;

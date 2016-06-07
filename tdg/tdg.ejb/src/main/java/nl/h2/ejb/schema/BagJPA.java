@@ -18,9 +18,9 @@ public class BagJPA {
     private Double usableSurface;
     private String usePurpose;
     private String coordinates;
-    private AdressesJPA adress;
+    private AdressJPA adress;
 
-    @Id
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public long getId() {
         return id;
@@ -82,11 +82,11 @@ public class BagJPA {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "adress", referencedColumnName = "id", nullable = false)
-    public AdressesJPA getAdress() {
+    public AdressJPA getAdress() {
         return adress;
     }
 
-    public void setAdress(AdressesJPA adress) {
+    public void setAdress(AdressJPA adress) {
         this.adress = adress;
     }
 
