@@ -73,8 +73,6 @@ public class TrainingDataGeneratorTest {
 
         // Clear data
         instance.clearData();
-
-        // TODO : test for succesful data removal
     }
 
 
@@ -87,15 +85,13 @@ public class TrainingDataGeneratorTest {
         // Initial data load
         instance.initialDataLoad();
 
-        // TODO : test for succesful data load
-
     }
 
 
     @Test
     public void testGenerateTrainingData() throws Exception {
 
-        instance.generateTrainingData(1000, 1.5, 0.2, 1.2, 0.1, null);
+        instance.generateTrainingData(10000, 1.5, 0.2, 1.2, 0.1, null);
 
     }
 

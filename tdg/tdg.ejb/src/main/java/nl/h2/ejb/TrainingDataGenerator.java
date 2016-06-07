@@ -110,6 +110,7 @@ public class TrainingDataGenerator {
     public void clearData() throws Exception {
 
         LOGGER.info("Start clearData();");
+        System.out.println("Start clear data");
 
         // Clear all class data
         conditionProbabilityMap.clear();
@@ -139,16 +140,17 @@ public class TrainingDataGenerator {
         removeHousingAdjustments.executeUpdate();
         removeResidents.executeUpdate();
         removeConditions.executeUpdate();
+        removeAdjustments.executeUpdate();
         removeWmoDecisions.executeUpdate();
         removeAdvice.executeUpdate();
         removeBag.executeUpdate();
         removeAdresses.executeUpdate();
         removeHousingSituations.executeUpdate();
         removePersons.executeUpdate();
-        removeAdjustments.executeUpdate();
         removeAdjustmentDefinitions.executeUpdate();
 
         LOGGER.info("End clearData();");
+        System.out.println("Done with clear data");
     }
 
     /**
@@ -673,6 +675,8 @@ public class TrainingDataGenerator {
         if (householdSize > 1) {
             for (long i = 0; i < householdSize - 1; i++) {
                 PersonJPA resident = new PersonJPA();
+                baseBsn++;
+                resident.setBsn(baseBsn);
                 housingSituation.getResidents().add(resident);
                 entityManager.merge(housingSituation);
                 entityManager.flush();
@@ -736,7 +740,7 @@ public class TrainingDataGenerator {
 
         // Based upon the valid adjustment definition list create a list of adjustments to include in the application
         List<AdjustmentJPA> proposedAdjustments = new ArrayList<AdjustmentJPA>();
-        int randomLength = getRandom().nextInt(6);
+        int randomLength = getRandom().nextInt(5);
         for (int i = 0; i < ((randomLength > 1) ? randomLength : 1); i++) {
 
             // Select random adjustment definition from the valid definitions
@@ -753,22 +757,16 @@ public class TrainingDataGenerator {
             proposedAdjustments.add(proposedAdjustment);
         }
 
-        for (AdjustmentJPA proposedAdjustment : proposedAdjustments) {
-
-            // Save the proposed adjustment
-            entityManager.merge(proposedAdjustment);
-            entityManager.flush();
-        }
-
-
         // Judge the application
         WmoDecisionJPA decision = judgeApplication(person, housingSituationJPA, proposedAdjustments, advice, remainingBudget);
 
-        // TODO : Other stuff with the WMO decision???
-        decision.setAdjustments(proposedAdjustments);
+        // Add the generated decision to the proposed adjustments
+        for (AdjustmentJPA proposedAdjustment : proposedAdjustments) {
+            proposedAdjustment.setDecision(decision);
+        }
 
-        // Save decision
-        entityManager.merge(decision);
+        // Merge one of the proposed adjustments with the decision included
+        entityManager.merge(proposedAdjustments.get(0));
         entityManager.flush();
 
     }
@@ -796,7 +794,7 @@ public class TrainingDataGenerator {
 
 
                 // Application is valid in theory, add small chance for exception
-                if (getRandom().nextDouble() <= 0.01) {
+                if (getRandom().nextDouble() <= 0.005) {
                     decision.setGranted(false);
                     decision.setException(true);
                     decision.setReason("Application rejected due to extrernal circumstances.");
@@ -809,7 +807,7 @@ public class TrainingDataGenerator {
             } else {
 
                 // Application is technically invalid, add small chance for exception
-                if (getRandom().nextDouble() <= 0.005) {
+                if (getRandom().nextDouble() <= 0.01) {
                     decision.setGranted(true);
                     decision.setException(true);
                     decision.setReason("Application granted due to external circumstances.");
