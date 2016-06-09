@@ -16,6 +16,7 @@ public class PersonJPA {
     private long bsn;
     private List<AdviceJPA> advice;
     private List<HousingSituationJPA> residence;
+    private List<AdjustmentJPA> adjustmentHistory;
 
     @Id
     @Column(name = "bsn", nullable = false)
@@ -43,6 +44,16 @@ public class PersonJPA {
 
     public void setResidence(List<HousingSituationJPA> residence) {
         this.residence = residence;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "applicant_history", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "person", referencedColumnName = "bsn", nullable = false), inverseJoinColumns = @JoinColumn(name = "adjustment", referencedColumnName = "id", nullable = false))
+    public List<AdjustmentJPA> getAdjustmentHistory() {
+        return adjustmentHistory;
+    }
+
+    public void setAdjustmentHistory(List<AdjustmentJPA> adjustmentHistory) {
+        this.adjustmentHistory = adjustmentHistory;
     }
 
 

@@ -49,7 +49,8 @@ public class HousingSituationJPA {
         this.elevator = elevator;
     }
 
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "housing_adjustments", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "housing_situation", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "adjustment", referencedColumnName = "id", nullable = false))
     public List<AdjustmentJPA> getAdjustments() {
         return adjustments;
     }

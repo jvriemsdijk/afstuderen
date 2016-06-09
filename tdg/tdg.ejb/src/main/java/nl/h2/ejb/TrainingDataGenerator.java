@@ -59,7 +59,7 @@ public class TrainingDataGenerator {
         if (meanHousholdSize < 1) {
             throw new ApplicatieException(Constanten.ERR_MEAN_HOUSEHOLD_SIZE_TOO_LOW);
         }
-        if (sigmaHouseholdSize <= 0) {
+        if (sigmaHouseholdSize < 0) {
             throw new ApplicatieException(Constanten.ERR_SIGMA_HOUSEHOLD_SIZE_TOO_LOW);
         }
 
@@ -67,6 +67,8 @@ public class TrainingDataGenerator {
         if (seed != null) {
             getRandom().setSeed(seed);
         }
+
+        System.out.println("Start generate training data");
 
         // Clear previous data
         clearData();
@@ -77,10 +79,12 @@ public class TrainingDataGenerator {
         // Determine number of applicants
         int numberOfApplicants = (int) Math.ceil(numberOfRecords / meanNumberOfApplications);
         int totalNumberOfApplications = 0;
+
+        System.out.println("Number of applicants to create: " + numberOfApplicants);
         for (int applicantNumber = 0; applicantNumber < numberOfApplicants; applicantNumber++) {
 
             // For each applicant, determine the number of applications and the household size
-            long numberOfApplications = Math.round(calculateAbsoluteGaussian(meanNumberOfApplications, sigmaNumberOfApplications));
+            long numberOfApplications = (long) Math.ceil(calculateAbsoluteGaussian(meanNumberOfApplications, sigmaNumberOfApplications));
             long householdSize = Math.round(calculateAbsoluteGaussian(meanHousholdSize, sigmaHouseholdSize));
 
             // Determine if the number of applications is valid in order to maintain the total number of records given
@@ -117,6 +121,7 @@ public class TrainingDataGenerator {
         allConditions.clear();
         allAdjustments.clear();
 
+        // Prepare all removal queries
         Query removeConditionsAdjustments = entityManager.createNativeQuery("DELETE FROM adjustment_condition");
         Query removeAdviceCurrentConditions = entityManager.createNativeQuery("DELETE FROM advice_current_condition");
         Query removeAdviceFutureConditions = entityManager.createNativeQuery("DELETE FROM advice_future_condition");
@@ -133,6 +138,7 @@ public class TrainingDataGenerator {
         Query removeWmoDecisions = entityManager.createNativeQuery("DELETE FROM wmo_decisions");
         Query removePersons = entityManager.createNativeQuery("DELETE FROM person");
 
+        // Execute all queries in the right order
         removeConditionsAdjustments.executeUpdate();
         removeAdviceCurrentConditions.executeUpdate();
         removeAdviceFutureConditions.executeUpdate();
@@ -663,8 +669,8 @@ public class TrainingDataGenerator {
 
         // Create new housing situation
         HousingSituationJPA housingSituation = new HousingSituationJPA();
-        // Floor is taken from the range 0 ... 3 in order to create an even share of housing situations which are suitable or unsuitable
-        housingSituation.setFloor((short) Math.floor(getRandom().nextDouble() * 4));
+        // Floor is taken from the range 0 ... 3 in order to create an even share of housing situations which are suitable or unsuitable for stair elevators
+        housingSituation.setFloor((short) getRandom().nextInt(5));
         housingSituation.setElevator(getRandom().nextBoolean());
         housingSituation.setResidents(new ArrayList<PersonJPA>());
         housingSituation.getResidents().add(person);
@@ -691,7 +697,7 @@ public class TrainingDataGenerator {
     }
 
 
-    public void createApplicationWithAdvice(PersonJPA person, HousingSituationJPA housingSituationJPA) {
+    public void createApplicationWithAdvice(PersonJPA person, HousingSituationJPA housingSituation) {
 
         double remainingBudget = BUDGET;
         List<ConditionJPA> currentConditions = new ArrayList<ConditionJPA>();
@@ -758,18 +764,34 @@ public class TrainingDataGenerator {
         }
 
         // Judge the application
-        WmoDecisionJPA decision = judgeApplication(person, housingSituationJPA, proposedAdjustments, advice, remainingBudget);
+        WmoDecisionJPA decision = judgeApplication(person, housingSituation, proposedAdjustments, advice, remainingBudget);
 
         // Add the generated decision to the proposed adjustments
         for (AdjustmentJPA proposedAdjustment : proposedAdjustments) {
             proposedAdjustment.setDecision(decision);
         }
 
+
+        // If the application is granted add the adjustments to the housing situation and the applicant history
+        if (decision.isGranted()) {
+
+            if (housingSituation.getAdjustments() == null) {
+                housingSituation.setAdjustments(new ArrayList<AdjustmentJPA>());
+            }
+            if (person.getAdjustmentHistory() == null) {
+                person.setAdjustmentHistory(new ArrayList<AdjustmentJPA>());
+            }
+            housingSituation.getAdjustments().addAll(proposedAdjustments);
+            entityManager.merge(housingSituation);
+            entityManager.flush();
+            person.getAdjustmentHistory().addAll(proposedAdjustments);
+
+        }
+
+
         // Merge one of the proposed adjustments with the decision included
         entityManager.merge(proposedAdjustments.get(0));
-        entityManager.flush();
-
-        entityManager.clear();
+//        entityManager.flush();
 
     }
 
@@ -780,6 +802,7 @@ public class TrainingDataGenerator {
         WmoDecisionJPA decision = new WmoDecisionJPA();
         decision.setAdjustments(proposedAdjustments);
         decision.setAdvice(advice);
+        boolean stairElevator = false;
 
         // Check for go ahead in advice
         if (advice.isGoAhead()) {
@@ -790,25 +813,51 @@ public class TrainingDataGenerator {
                 totalCost += proposedAdjustment.getActualCost();
             }
 
-            if (remainingBudget > totalCost) {
+            // TODO : Also take into account any previously granted adjustments
+            double costHistory = 0.0;
+            if (person.getAdjustmentHistory() != null) {
+                for (AdjustmentJPA adjustment : person.getAdjustmentHistory()) {
+                    costHistory += adjustment.getActualCost();
+                }
+            }
 
-                // TODO : check for adjustment type and housing situation
 
+            if (remainingBudget > (totalCost + costHistory)) {
 
-                // Application is valid in theory, add small chance for exception
-                if (getRandom().nextDouble() <= 0.005) {
-                    decision.setGranted(false);
-                    decision.setException(true);
-                    decision.setReason("Application rejected due to extrernal circumstances.");
-                } else {
-                    decision.setGranted(true);
-                    decision.setException(false);
-                    decision.setReason("Application granted.");
+                // Check for stair elevator
+                for (AdjustmentJPA proposedAdjustment : proposedAdjustments) {
+                    if (proposedAdjustment.getAdjustmentDefinition().getName().contains("Stair elevator")) {
+                        stairElevator = true;
+                    }
                 }
 
-            } else {
 
-                // Application is technically invalid, add small chance for exception
+                if (stairElevator && housingSituationJPA.getFloor() >= 2) {
+
+                    decision.setGranted(false);
+                    decision.setException(false);
+                    decision.setReason("Application rejected due to stair elevator to a too high a floor.");
+
+
+                } else {
+
+                    // Application is valid in theory, add small chance for exception
+                    if (getRandom().nextDouble() <= 0.005) {
+                        decision.setGranted(false);
+                        decision.setException(true);
+                        decision.setReason("Application rejected due to extrernal circumstances.");
+                    } else {
+                        decision.setGranted(true);
+                        decision.setException(false);
+                        decision.setReason("Application granted.");
+                    }
+                }
+
+
+
+            } else if (remainingBudget < totalCost) {
+
+                // Application is technically invalid, add small chance for exception-*-
                 if (getRandom().nextDouble() <= 0.01) {
                     decision.setGranted(true);
                     decision.setException(true);
@@ -823,6 +872,13 @@ public class TrainingDataGenerator {
                     decision.setException(false);
                     decision.setReason("Application rejected due to high costs.");
                 }
+
+            } else {
+
+                // The applicant has alread recieved a their allotted budget
+                decision.setGranted(false);
+                decision.setException(false);
+                decision.setReason("Application rejected because the applicant has already recieved their allowed budget.");
 
             }
 

@@ -47,7 +47,7 @@ public class AdjustmentJPA {
         this.adjustmentDefinition = adjustmentDefinition;
     }
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "wmo_decision", referencedColumnName = "id")
     public WmoDecisionJPA getDecision() {
         return decision;
