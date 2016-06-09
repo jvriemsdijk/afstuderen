@@ -91,23 +91,10 @@ public class TrainingDataGeneratorTest {
     @Test
     public void testGenerateTrainingData() throws Exception {
 
-//        instance.clearData();
-//        instance.initialDataLoad();
-        instance.generateTrainingData(5000, 1.1, 0.9, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
-//        instance.generateTrainingData(5000, 1.1, 0.9, 1.2, 0.5, null);
+        instance.clearData();
+        instance.initialDataLoad();
+        instance.generateTrainingData(25, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(75, 1.5, 0.3, 1.0, 0.0, null);
 
     }
 

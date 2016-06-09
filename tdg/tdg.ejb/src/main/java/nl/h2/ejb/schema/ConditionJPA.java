@@ -48,7 +48,7 @@ public class ConditionJPA {
         this.chronic = chronic;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "adjustment_condition", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "condition", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "adjustment", referencedColumnName = "id", nullable = false))
     public List<AdjustmentDefinitionJPA> getAdjustments() {
         return adjustments;

@@ -50,7 +50,7 @@ public class AdviceJPA {
         this.applicant = applicant;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "advice_current_condition", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "advice", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "condition", referencedColumnName = "id", nullable = false))
     public List<ConditionJPA> getCurrentConditions() {
         return currentConditions;
@@ -60,7 +60,7 @@ public class AdviceJPA {
         this.currentConditions = currentConditions;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "advice_future_condition", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "advice", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "condition", referencedColumnName = "id", nullable = false))
     public List<ConditionJPA> getFutureConditions() {
         return futureConditions;

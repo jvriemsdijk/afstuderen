@@ -29,11 +29,12 @@ public class TrainingDataGenerator {
 
 
     private final double BUDGET = 7200.0;
-    private int baseBsn = 923345456;
+    private int baseBsn = 901454956;
     private Random random = null;
     private Map<ConditionJPA, Double> conditionProbabilityMap = new HashMap<ConditionJPA, Double>();
     private List<ConditionJPA> allConditions = new ArrayList<ConditionJPA>();
     private List<AdjustmentDefinitionJPA> allAdjustments = new ArrayList<AdjustmentDefinitionJPA>();
+    private int totalApplications;
 
 
     /**
@@ -70,22 +71,16 @@ public class TrainingDataGenerator {
 
         System.out.println("Start generate training data");
 
-        // Clear previous data
-        clearData();
-
-        // Start initial data load
-        initialDataLoad();
-
-        // Determine number of applicants
-        int numberOfApplicants = (int) Math.ceil(numberOfRecords / meanNumberOfApplications);
+        totalApplications = 0;
+        boolean notDone = true;
         int totalNumberOfApplications = 0;
 
-        System.out.println("Number of applicants to create: " + numberOfApplicants);
-        for (int applicantNumber = 0; applicantNumber < numberOfApplicants; applicantNumber++) {
-
+        while (notDone) {
             // For each applicant, determine the number of applications and the household size
-            long numberOfApplications = (long) Math.ceil(calculateAbsoluteGaussian(meanNumberOfApplications, sigmaNumberOfApplications));
+            long numberOfApplications = Math.round(calculateAbsoluteGaussian(meanNumberOfApplications, sigmaNumberOfApplications));
+            numberOfApplications = numberOfApplications == 0 ? 1 : numberOfApplications;
             long householdSize = Math.round(calculateAbsoluteGaussian(meanHousholdSize, sigmaHouseholdSize));
+            householdSize = householdSize == 0 ? 1 : householdSize;
 
             // Determine if the number of applications is valid in order to maintain the total number of records given
             if (numberOfRecords - (totalNumberOfApplications + numberOfApplications) >= 0) {
@@ -98,22 +93,28 @@ public class TrainingDataGenerator {
 
                 // If the number of records is equal to the number of applications, break
                 if (totalNumberOfApplications == numberOfRecords) {
-                    break;
+                    notDone = false;
                 }
 
             } else {
 
                 // Create applicant with remaining number of applications and break
                 createApplicant(numberOfRecords - totalNumberOfApplications, householdSize);
-                break;
+                notDone = false;
             }
         }
+
+        System.out.println("Total number of applications generated: " + totalApplications);
     }
 
 
+    /**
+     * Method to clear all data present in the data
+     *
+     * @throws Exception
+     */
     public void clearData() throws Exception {
 
-        LOGGER.info("Start clearData();");
         System.out.println("Start clear data");
 
         // Clear all class data
@@ -155,9 +156,9 @@ public class TrainingDataGenerator {
         removePersons.executeUpdate();
         removeAdjustmentDefinitions.executeUpdate();
 
-        LOGGER.info("End clearData();");
         System.out.println("Done with clear data");
     }
+
 
     /**
      * Method for the initial data load for the training data generator. Creates a selection of conditions and
@@ -167,7 +168,7 @@ public class TrainingDataGenerator {
      */
     public void initialDataLoad() throws Exception {
 
-        LOGGER.info("Start initialDataLoad();");
+        System.out.println("Start initial data load");
 
         /*
         Conditions
@@ -653,7 +654,7 @@ public class TrainingDataGenerator {
         entityManager.flush();
 
 
-        LOGGER.info("End initialDataLoad();");
+        System.out.println("End initial data load");
 
     }
 
@@ -674,8 +675,6 @@ public class TrainingDataGenerator {
         housingSituation.setElevator(getRandom().nextBoolean());
         housingSituation.setResidents(new ArrayList<PersonJPA>());
         housingSituation.getResidents().add(person);
-        entityManager.merge(housingSituation);
-        entityManager.flush();
 
         // Generate residents, if applicable
         if (householdSize > 1) {
@@ -684,20 +683,23 @@ public class TrainingDataGenerator {
                 baseBsn++;
                 resident.setBsn(baseBsn);
                 housingSituation.getResidents().add(resident);
-                entityManager.merge(housingSituation);
-                entityManager.flush();
             }
         }
 
+        entityManager.persist(housingSituation);
 
         // Generate the given number of applications
+        person.setAdvice(new ArrayList<AdviceJPA>());
         for (long i = 0; i < numberOfApplications; i++) {
-            createApplicationWithAdvice(person, housingSituation);
+            person.getAdvice().add(createApplicationWithAdvice(person, housingSituation));
         }
+
+        entityManager.merge(person);
+        entityManager.flush();
     }
 
 
-    public void createApplicationWithAdvice(PersonJPA person, HousingSituationJPA housingSituation) {
+    public AdviceJPA createApplicationWithAdvice(PersonJPA person, HousingSituationJPA housingSituation) {
 
         double remainingBudget = BUDGET;
         List<ConditionJPA> currentConditions = new ArrayList<ConditionJPA>();
@@ -733,6 +735,8 @@ public class TrainingDataGenerator {
         advice.setGoAhead(true); // Always true, or else the application is not taken into account
         advice.setCurrentConditions(currentConditions);
         advice.setFutureConditions(futureConditions);
+
+        entityManager.persist(advice);
 
         // Create a list of valid adjustment definitions
         List<AdjustmentDefinitionJPA> validAdjustmentDefinitions = new ArrayList<AdjustmentDefinitionJPA>();
@@ -782,16 +786,16 @@ public class TrainingDataGenerator {
                 person.setAdjustmentHistory(new ArrayList<AdjustmentJPA>());
             }
             housingSituation.getAdjustments().addAll(proposedAdjustments);
-            entityManager.merge(housingSituation);
-            entityManager.flush();
             person.getAdjustmentHistory().addAll(proposedAdjustments);
+            entityManager.merge(person);
 
         }
 
+        advice.setDecision(decision);
 
-        // Merge one of the proposed adjustments with the decision included
-        entityManager.merge(proposedAdjustments.get(0));
-//        entityManager.flush();
+        totalApplications++;
+
+        return advice;
 
     }
 
@@ -813,7 +817,7 @@ public class TrainingDataGenerator {
                 totalCost += proposedAdjustment.getActualCost();
             }
 
-            // TODO : Also take into account any previously granted adjustments
+            // Also take into account any previously granted adjustments
             double costHistory = 0.0;
             if (person.getAdjustmentHistory() != null) {
                 for (AdjustmentJPA adjustment : person.getAdjustmentHistory()) {
@@ -852,7 +856,6 @@ public class TrainingDataGenerator {
                         decision.setReason("Application granted.");
                     }
                 }
-
 
 
             } else if (remainingBudget < totalCost) {
