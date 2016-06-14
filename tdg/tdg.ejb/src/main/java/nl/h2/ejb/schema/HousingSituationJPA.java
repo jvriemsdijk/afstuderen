@@ -4,32 +4,34 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * Created by joeyvanriemsdijk on 02/06/16.
+ * Created by: J. van Riemsdijk | H2
  */
 @Entity
 @Table(name = "housing_situation", schema = "public", catalog = "postgres")
 @NamedQueries({
-        @NamedQuery(name = "HousingSituation.findAll", query = "SELECT a FROM HousingSituationJPA a"),
-        @NamedQuery(name = "HousingSituation.deleteAll", query = "DELETE FROM HousingSituationJPA")
+        @NamedQuery(name = "HousingSituation.findAll", query = "SELECT a FROM HousingSituationJPA a")
 })
 public class HousingSituationJPA {
-    private long id;
+
+    private Long housingSituationId;
     private short floor;
     private boolean elevator;
-    private List<AdjustmentJPA> adjustments;
-    private List<PersonJPA> residents;
+    private List<PersonToHousingSituationJPA> residents;
+    private List<HousingSituationToAdjustmentJPA> placedAdjustments;
 
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    public long getId() {
-        return id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "housing_situation_id", nullable = false)
+    public Long getHousingSituationId() {
+        return housingSituationId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setHousingSituationId(Long housingSituationId) {
+        this.housingSituationId = housingSituationId;
     }
 
-    @Basic
+
     @Column(name = "floor", nullable = false)
     public short getFloor() {
         return floor;
@@ -38,6 +40,7 @@ public class HousingSituationJPA {
     public void setFloor(short floor) {
         this.floor = floor;
     }
+
 
     @Basic
     @Column(name = "elevator", nullable = false)
@@ -49,23 +52,23 @@ public class HousingSituationJPA {
         this.elevator = elevator;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "housing_adjustments", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "housing_situation", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "adjustment", referencedColumnName = "id", nullable = false))
-    public List<AdjustmentJPA> getAdjustments() {
-        return adjustments;
+
+    @OneToMany(mappedBy = "housingSituation")
+    public List<HousingSituationToAdjustmentJPA> getPlacedAdjustments() {
+        return placedAdjustments;
     }
 
-    public void setAdjustments(List<AdjustmentJPA> adjustments) {
-        this.adjustments = adjustments;
+    public void setPlacedAdjustments(List<HousingSituationToAdjustmentJPA> placedAdjustments) {
+        this.placedAdjustments = placedAdjustments;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "residents", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "housing_situation", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "person", referencedColumnName = "bsn", nullable = false))
-    public List<PersonJPA> getResidents() {
-        return residents;
+
+    @OneToMany(mappedBy = "housingSituation")
+    public List<PersonToHousingSituationJPA> getResidents() {
+        return this.residents;
     }
 
-    public void setResidents(List<PersonJPA> residents) {
+    public void setResidents(List<PersonToHousingSituationJPA> residents) {
         this.residents = residents;
     }
 
@@ -77,7 +80,7 @@ public class HousingSituationJPA {
 
         HousingSituationJPA that = (HousingSituationJPA) o;
 
-        if (getId() != that.getId()) return false;
+        if (getHousingSituationId().equals(that.getHousingSituationId())) return false;
         if (getFloor() != that.getFloor()) return false;
         if (isElevator() != that.isElevator()) return false;
 
@@ -86,9 +89,11 @@ public class HousingSituationJPA {
 
     @Override
     public int hashCode() {
-        int result = (int) (getId() ^ (getId() >>> 32));
+        int result = 32;
         result = 31 * result + (int) getFloor();
         result = 31 * result + (isElevator() ? 1 : 0);
         return result;
     }
+
+
 }

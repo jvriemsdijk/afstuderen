@@ -3,29 +3,35 @@ package nl.h2.ejb.schema;
 import javax.persistence.*;
 
 /**
- * Created by joeyvanriemsdijk on 02/06/16.
+ * Created by: J. van Riemsdijk | H2
  */
 @Entity
 @Table(name = "adjustment", schema = "public", catalog = "postgres")
 @NamedQueries({
-        @NamedQuery(name = "Adjustment.findAll", query = "SELECT a FROM AdjustmentJPA a"),
-        @NamedQuery(name = "Adjustment.deleteAll", query = "DELETE FROM AdjustmentJPA")
+        @NamedQuery(name = "Adjustment.findAll", query = "SELECT a FROM AdjustmentJPA a")
 })
 public class AdjustmentJPA {
-    private long id;
+
+    private Long adjustmentId;
     private Double actualCost;
     private AdjustmentDefinitionJPA adjustmentDefinition;
-    private WmoDecisionJPA decision;
+    private Double costSubsidized;
+    private ContractorJPA contractor;
+    private HousingSituationToAdjustmentJPA installationPeriod;
+    private ApplicationJPA application;
 
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    public long getId() {
-        return id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "adjustment_id", nullable = false)
+    public Long getAdjustmentId() {
+        return adjustmentId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setAdjustmentId(Long adjustmentId) {
+        this.adjustmentId = adjustmentId;
     }
+
 
     @Basic
     @Column(name = "actual_cost", nullable = true, precision = 0)
@@ -33,28 +39,63 @@ public class AdjustmentJPA {
         return actualCost;
     }
 
+
     public void setActualCost(Double actualCost) {
         this.actualCost = actualCost;
     }
 
     @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "adjustment_definition", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "adjustment_definition", referencedColumnName = "adjustment_definition_id", nullable = false)
     public AdjustmentDefinitionJPA getAdjustmentDefinition() {
         return adjustmentDefinition;
     }
+
 
     public void setAdjustmentDefinition(AdjustmentDefinitionJPA adjustmentDefinition) {
         this.adjustmentDefinition = adjustmentDefinition;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "wmo_decision", referencedColumnName = "id")
-    public WmoDecisionJPA getDecision() {
-        return decision;
+
+    @Basic
+    @Column(name = "cost_subsidized", nullable = true, precision = 0)
+    public Double getCostSubsidized() {
+        return costSubsidized;
     }
 
-    public void setDecision(WmoDecisionJPA decision) {
-        this.decision = decision;
+    public void setCostSubsidized(Double costSubsidized) {
+        this.costSubsidized = costSubsidized;
+    }
+
+
+    @ManyToOne
+    @JoinColumn(name = "contractor", referencedColumnName = "contractor_id")
+    public ContractorJPA getContractor() {
+        return contractor;
+    }
+
+    public void setContractor(ContractorJPA contractor) {
+        this.contractor = contractor;
+    }
+
+
+    @OneToOne(mappedBy = "adjustment")
+    public HousingSituationToAdjustmentJPA getInstallationPeriod() {
+        return installationPeriod;
+    }
+
+    public void setInstallationPeriod(HousingSituationToAdjustmentJPA installationPeriod) {
+        this.installationPeriod = installationPeriod;
+    }
+
+
+    @ManyToOne
+    @JoinColumn(name = "application", referencedColumnName = "application_id")
+    public ApplicationJPA getApplication() {
+        return application;
+    }
+
+    public void setApplication(ApplicationJPA application) {
+        this.application = application;
     }
 
 
@@ -65,7 +106,7 @@ public class AdjustmentJPA {
 
         AdjustmentJPA that = (AdjustmentJPA) o;
 
-        if (getId() != that.getId()) return false;
+        if (getAdjustmentId().equals(that.getAdjustmentId())) return false;
         if (getActualCost() != null ? !getActualCost().equals(that.getActualCost()) : that.getActualCost() != null)
             return false;
 
@@ -74,7 +115,7 @@ public class AdjustmentJPA {
 
     @Override
     public int hashCode() {
-        int result = (int) (getId() ^ (getId() >>> 32));
+        int result = (int) (getAdjustmentId() ^ (getAdjustmentId() >>> 32));
         result = 31 * result + (getActualCost() != null ? getActualCost().hashCode() : 0);
         return result;
     }

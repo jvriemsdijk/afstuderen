@@ -1,33 +1,38 @@
 package nl.h2.ejb.schema;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
- * Created by joeyvanriemsdijk on 02/06/16.
+ * Created by: J. van Riemsdijk | H2
  */
 @Entity
-@Table(name = "adjustment_definitions", schema = "public", catalog = "postgres")
+@Table(name = "adjustment_definition", schema = "public", catalog = "postgres")
 @NamedQueries({
-        @NamedQuery(name = "AdjustmentDefinition.findAll", query = "SELECT a FROM AdjustmentDefinitionJPA a"),
-        @NamedQuery(name = "AdjustmentDefinition.deleteAll", query = "DELETE FROM AdjustmentDefinitionJPA")
+        @NamedQuery(name = "AdjustmentDefinition.findAll", query = "SELECT a FROM AdjustmentDefinitionJPA a")
 })
 public class AdjustmentDefinitionJPA {
-    private long id;
+
+    private Long adjustmentDefinitionId;
     private String name;
     private double averageCost;
     private Double costMargin;
     private List<ConditionJPA> conditions;
+    private Date creationDate;
+    private Integer version;
+
 
     @Id
-    @Column(name = "id", nullable = false)
-    public long getId() {
-        return id;
+    @Column(name = "adjustment_definition_id", nullable = false)
+    public Long getAdjustmentDefinitionId() {
+        return adjustmentDefinitionId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setAdjustmentDefinitionId(Long adjustmentDefinitionId) {
+        this.adjustmentDefinitionId = adjustmentDefinitionId;
     }
+
 
     @Basic
     @Column(name = "name", nullable = false, length = 254)
@@ -39,8 +44,9 @@ public class AdjustmentDefinitionJPA {
         this.name = name;
     }
 
+
     @Basic
-    @Column(name = "average_cost", nullable = false, precision = 0)
+    @Column(name = "average_cost")
     public double getAverageCost() {
         return averageCost;
     }
@@ -49,8 +55,9 @@ public class AdjustmentDefinitionJPA {
         this.averageCost = averageCost;
     }
 
+
     @Basic
-    @Column(name = "cost_margin", nullable = true, precision = 0)
+    @Column(name = "cost_margin")
     public Double getCostMargin() {
         return costMargin;
     }
@@ -59,13 +66,37 @@ public class AdjustmentDefinitionJPA {
         this.costMargin = costMargin;
     }
 
-    @ManyToMany(mappedBy = "adjustments")
+
+    @ManyToMany
+    @JoinTable(name = "adjustment_definition_to_condition", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "adjustment_definition", referencedColumnName = "adjustment_definition_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "condition", referencedColumnName = "condition_id", nullable = false))
     public List<ConditionJPA> getConditions() {
         return conditions;
     }
 
     public void setConditions(List<ConditionJPA> conditions) {
         this.conditions = conditions;
+    }
+
+
+    @Basic
+    @Column(name = "creation_date")
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+
+    @Basic
+    @Column(name = "version")
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
 
@@ -76,7 +107,7 @@ public class AdjustmentDefinitionJPA {
 
         AdjustmentDefinitionJPA that = (AdjustmentDefinitionJPA) o;
 
-        if (getId() != that.getId()) return false;
+        if (getAdjustmentDefinitionId().equals(that.getAdjustmentDefinitionId())) return false;
         if (Double.compare(that.getAverageCost(), getAverageCost()) != 0) return false;
         if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
         if (getCostMargin() != null ? !getCostMargin().equals(that.getCostMargin()) : that.getCostMargin() != null)
@@ -89,7 +120,7 @@ public class AdjustmentDefinitionJPA {
     public int hashCode() {
         int result;
         long temp;
-        result = (int) (getId() ^ (getId() >>> 32));
+        result = (int) (getAdjustmentDefinitionId() ^ (getAdjustmentDefinitionId() >>> 32));
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         temp = Double.doubleToLongBits(getAverageCost());
         result = 31 * result + (int) (temp ^ (temp >>> 32));

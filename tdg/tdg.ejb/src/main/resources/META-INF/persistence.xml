@@ -4,19 +4,23 @@
       <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
       <class>nl.h2.ejb.schema.AdjustmentJPA</class>
       <class>nl.h2.ejb.schema.AdjustmentDefinitionJPA</class>
-      <class>nl.h2.ejb.schema.AdressJPA</class>
       <class>nl.h2.ejb.schema.AdviceJPA</class>
       <class>nl.h2.ejb.schema.BagJPA</class>
       <class>nl.h2.ejb.schema.ConditionJPA</class>
       <class>nl.h2.ejb.schema.HousingSituationJPA</class>
       <class>nl.h2.ejb.schema.PersonJPA</class>
       <class>nl.h2.ejb.schema.WmoDecisionJPA</class>
+      <class>nl.h2.ejb.schema.AddressJPA</class>
+      <class>nl.h2.ejb.schema.ApplicationJPA</class>
+      <class>nl.h2.ejb.schema.ContractorJPA</class>
+      <class>nl.h2.ejb.schema.HousingSituationToAdjustmentJPA</class>
+      <class>nl.h2.ejb.schema.PersonToHousingSituationJPA</class>
       <exclude-unlisted-classes>false</exclude-unlisted-classes>
       <properties>
           <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/postgres"/>
           <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-          <property name="hibernate.connection.username"/>
-          <property name="hibernate.connection.password"/>
+          <property name="hibernate.connection.username" value="postgres"/>
+          <property name="hibernate.connection.password" value="Hydro1234"/>
           <property name="openjpa.ConnectionURL" value="jdbc:postgresql://localhost:5432/postgres"/>
           <property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver"/>
           <property name="openjpa.ConnectionUserName" value="postgres"/>

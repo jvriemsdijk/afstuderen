@@ -4,39 +4,30 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * Created by joeyvanriemsdijk on 02/06/16.
+ * Created by: J. van Riemsdijk | H2
  */
 @Entity
-@Table(name = "conditions", schema = "public", catalog = "postgres")
+@Table(name = "condition", schema = "public", catalog = "postgres")
 @NamedQueries({
-        @NamedQuery(name = "Condition.findAll", query = "SELECT c FROM ConditionJPA c"),
-        @NamedQuery(name = "Condition.deleteAll", query = "DELETE FROM ConditionJPA")
+        @NamedQuery(name = "Condition.findAll", query = "SELECT c FROM ConditionJPA c")
 })
 public class ConditionJPA {
-    private long id;
+
+    private Long conditionId;
     private String name;
     private boolean chronic;
-    private List<AdjustmentDefinitionJPA> adjustments;
+    private List<AdjustmentDefinitionJPA> adjustmentDefinitions;
 
     @Id
-    @Column(name = "id", nullable = false)
-    public long getId() {
-        return id;
+    @Column(name = "condition_id", nullable = false)
+    public Long getConditionId() {
+        return conditionId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setConditionId(Long conditionId) {
+        this.conditionId = conditionId;
     }
 
-    @Basic
-    @Column(name = "name", nullable = true, length = 254)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Basic
     @Column(name = "chronic", nullable = false)
@@ -48,14 +39,26 @@ public class ConditionJPA {
         this.chronic = chronic;
     }
 
-    @ManyToMany
-    @JoinTable(name = "adjustment_condition", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "condition", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "adjustment", referencedColumnName = "id", nullable = false))
-    public List<AdjustmentDefinitionJPA> getAdjustments() {
-        return adjustments;
+
+    @Basic
+    @Column(name = "name", length = 254)
+    public String getName() {
+        return name;
     }
 
-    public void setAdjustments(List<AdjustmentDefinitionJPA> adjustments) {
-        this.adjustments = adjustments;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    @ManyToMany(mappedBy = "conditions")
+    public List<AdjustmentDefinitionJPA> getAdjustmentDefinitions() {
+        return adjustmentDefinitions;
+    }
+
+    public void setAdjustmentDefinitions(List<AdjustmentDefinitionJPA> adjustmentDefinitions) {
+        this.adjustmentDefinitions = adjustmentDefinitions;
+
     }
 
 
@@ -66,7 +69,7 @@ public class ConditionJPA {
 
         ConditionJPA that = (ConditionJPA) o;
 
-        if (getId() != that.getId()) return false;
+        if (getConditionId().equals(that.getConditionId())) return false;
         if (isChronic() != that.isChronic()) return false;
         if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
 
@@ -75,7 +78,7 @@ public class ConditionJPA {
 
     @Override
     public int hashCode() {
-        int result = (int) (getId() ^ (getId() >>> 32));
+        int result = (int) (getConditionId() ^ (getConditionId() >>> 32));
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         result = 31 * result + (isChronic() ? 1 : 0);
         return result;

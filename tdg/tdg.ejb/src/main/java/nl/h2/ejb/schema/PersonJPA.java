@@ -4,19 +4,19 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * Created by joeyvanriemsdijk on 02/06/16.
+ * Created by: J. van Riemsdijk | H2
  */
 @Entity
 @Table(name = "person", schema = "public", catalog = "postgres")
 @NamedQueries({
-        @NamedQuery(name = "Person.findAll", query = "SELECT a FROM PersonJPA a"),
-        @NamedQuery(name = "Person.deleteAll", query = "DELETE FROM PersonJPA")
+        @NamedQuery(name = "Person.findAll", query = "SELECT a FROM PersonJPA a")
 })
 public class PersonJPA {
+
     private long bsn;
-    private List<AdviceJPA> advice;
-    private List<HousingSituationJPA> residence;
-    private List<AdjustmentJPA> adjustmentHistory;
+    private List<ApplicationJPA> applications;
+    private List<PersonToHousingSituationJPA> housingHistory;
+
 
     @Id
     @Column(name = "bsn", nullable = false)
@@ -28,34 +28,25 @@ public class PersonJPA {
         this.bsn = bsn;
     }
 
-    @OneToMany(mappedBy = "applicant", cascade = CascadeType.ALL)
-    public List<AdviceJPA> getAdvice() {
-        return advice;
+
+    @OneToMany(mappedBy = "applicant")
+    public List<ApplicationJPA> getApplications() {
+        return applications;
     }
 
-    public void setAdvice(List<AdviceJPA> advice) {
-        this.advice = advice;
+    public void setApplications(List<ApplicationJPA> applications) {
+        this.applications = applications;
     }
 
-    @ManyToMany(mappedBy = "residents", cascade = CascadeType.ALL)
-    public List<HousingSituationJPA> getResidence() {
-        return residence;
+
+    @OneToMany(mappedBy = "resident")
+    public List<PersonToHousingSituationJPA> getHousingHistory() {
+        return housingHistory;
     }
 
-    public void setResidence(List<HousingSituationJPA> residence) {
-        this.residence = residence;
+    public void setHousingHistory(List<PersonToHousingSituationJPA> housingHistory) {
+        this.housingHistory = housingHistory;
     }
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "applicant_history", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "person", referencedColumnName = "bsn", nullable = false), inverseJoinColumns = @JoinColumn(name = "adjustment", referencedColumnName = "id", nullable = false))
-    public List<AdjustmentJPA> getAdjustmentHistory() {
-        return adjustmentHistory;
-    }
-
-    public void setAdjustmentHistory(List<AdjustmentJPA> adjustmentHistory) {
-        this.adjustmentHistory = adjustmentHistory;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -73,4 +64,5 @@ public class PersonJPA {
     public int hashCode() {
         return (int) (getBsn() ^ (getBsn() >>> 32));
     }
+
 }
