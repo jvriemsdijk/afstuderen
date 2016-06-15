@@ -79,17 +79,17 @@ public class ApplicationJPA {
 
         ApplicationJPA that = (ApplicationJPA) o;
 
-        if (applicationId != null ? !applicationId.equals(that.applicationId) : that.applicationId != null)
+        if (getApplicationId() != null ? !getApplicationId().equals(that.getApplicationId()) : that.getApplicationId() != null)
             return false;
-        if (dateRecieved != null ? !dateRecieved.equals(that.dateRecieved) : that.dateRecieved != null) return false;
+        if (getDateRecieved() != null ? !getDateRecieved().equals(that.getDateRecieved()) : that.getDateRecieved() != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = applicationId != null ? applicationId.hashCode() : 0;
-        result = 31 * result + (dateRecieved != null ? dateRecieved.hashCode() : 0);
+        int result = getApplicationId() != null ? getApplicationId().hashCode() : 0;
+        result = 31 * result + (getDateRecieved() != null ? getDateRecieved().hashCode() : 0);
         return result;
     }
 }

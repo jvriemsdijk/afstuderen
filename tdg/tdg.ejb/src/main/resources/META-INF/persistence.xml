@@ -21,13 +21,7 @@
           <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
           <property name="hibernate.connection.username" value="postgres"/>
           <property name="hibernate.connection.password" value="Hydro1234"/>
-          <property name="openjpa.ConnectionURL" value="jdbc:postgresql://localhost:5432/postgres"/>
-          <property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver"/>
-          <property name="openjpa.ConnectionUserName" value="postgres"/>
-          <property name="openjpa.ConnectionPassword" value="Hydro1234"/>
-
-          <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(foreignKeys=true)"/>
-
+          <!--<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(foreignKeys=true)"/>-->
       </properties>
   </persistence-unit>
 </persistence>

@@ -67,16 +67,16 @@ public class HousingSituationToAdjustmentJPA {
 
         HousingSituationToAdjustmentJPA that = (HousingSituationToAdjustmentJPA) o;
 
-        if (datePlaced != null ? !datePlaced.equals(that.datePlaced) : that.datePlaced != null) return false;
-        if (dateRemoved != null ? !dateRemoved.equals(that.dateRemoved) : that.dateRemoved != null) return false;
+        if (getDatePlaced() != null ? !getDatePlaced().equals(that.getDatePlaced()) : that.getDatePlaced() != null) return false;
+        if (getDateRemoved() != null ? !getDateRemoved().equals(that.getDateRemoved()) : that.getDateRemoved() != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = datePlaced != null ? datePlaced.hashCode() : 0;
-        result = 31 * result + (dateRemoved != null ? dateRemoved.hashCode() : 0);
+        int result = getDatePlaced() != null ? getDatePlaced().hashCode() : 0;
+        result = 31 * result + (getDateRemoved() != null ? getDateRemoved().hashCode() : 0);
         return result;
     }
 }

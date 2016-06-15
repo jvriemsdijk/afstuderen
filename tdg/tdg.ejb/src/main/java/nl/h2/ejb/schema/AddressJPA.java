@@ -114,26 +114,26 @@ public class AddressJPA {
 
         AddressJPA that = (AddressJPA) o;
 
-        if (addressId != null ? !addressId.equals(that.addressId) : that.addressId != null) return false;
-        if (street != null ? !street.equals(that.street) : that.street != null) return false;
-        if (zipcode != null ? !zipcode.equals(that.zipcode) : that.zipcode != null) return false;
-        if (number != null ? !number.equals(that.number) : that.number != null) return false;
-        if (numberAddon != null ? !numberAddon.equals(that.numberAddon) : that.numberAddon != null) return false;
-        if (city != null ? !city.equals(that.city) : that.city != null) return false;
-        if (country != null ? !country.equals(that.country) : that.country != null) return false;
+        if (getAddressId() != null ? !getAddressId().equals(that.getAddressId()) : that.getAddressId() != null) return false;
+        if (getStreet() != null ? !getStreet().equals(that.getStreet()) : that.getStreet() != null) return false;
+        if (getZipcode() != null ? !getZipcode().equals(that.getZipcode()) : that.getZipcode() != null) return false;
+        if (getNumber() != null ? !getNumber().equals(that.getNumber()) : that.getNumber() != null) return false;
+        if (getNumberAddon() != null ? !getNumberAddon().equals(that.getNumberAddon()) : that.getNumberAddon() != null) return false;
+        if (getCity() != null ? !getCity().equals(that.getCity()) : that.getCity() != null) return false;
+        if (getCountry() != null ? !getCountry().equals(that.getCountry()) : that.getCountry() != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = addressId != null ? addressId.hashCode() : 0;
-        result = 31 * result + (street != null ? street.hashCode() : 0);
-        result = 31 * result + (zipcode != null ? zipcode.hashCode() : 0);
-        result = 31 * result + (number != null ? number.hashCode() : 0);
-        result = 31 * result + (numberAddon != null ? numberAddon.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (country != null ? country.hashCode() : 0);
+        int result = getAddressId() != null ? getAddressId().hashCode() : 0;
+        result = 31 * result + (getStreet() != null ? getStreet().hashCode() : 0);
+        result = 31 * result + (getZipcode() != null ? getZipcode().hashCode() : 0);
+        result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
+        result = 31 * result + (getNumberAddon() != null ? getNumberAddon().hashCode() : 0);
+        result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
+        result = 31 * result + (getCountry() != null ? getCountry().hashCode() : 0);
         return result;
     }
 }

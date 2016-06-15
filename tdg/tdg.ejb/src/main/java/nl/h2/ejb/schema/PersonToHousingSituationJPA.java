@@ -66,16 +66,16 @@ public class PersonToHousingSituationJPA {
 
         PersonToHousingSituationJPA that = (PersonToHousingSituationJPA) o;
 
-        if (moveInDate != null ? !moveInDate.equals(that.moveInDate) : that.moveInDate != null) return false;
-        if (moveOutDate != null ? !moveOutDate.equals(that.moveOutDate) : that.moveOutDate != null) return false;
+        if (getMoveInDate() != null ? !getMoveInDate().equals(that.getMoveInDate()) : that.getMoveInDate() != null) return false;
+        if (getMoveOutDate() != null ? !getMoveOutDate().equals(that.getMoveOutDate()) : that.getMoveOutDate() != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = moveInDate != null ? moveInDate.hashCode() : 0;
-        result = 31 * result + (moveOutDate != null ? moveOutDate.hashCode() : 0);
+        int result = getMoveInDate() != null ? getMoveInDate().hashCode() : 0;
+        result = 31 * result + (getMoveOutDate() != null ? getMoveOutDate().hashCode() : 0);
         return result;
     }
 }

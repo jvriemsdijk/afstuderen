@@ -104,24 +104,24 @@ public class ContractorJPA {
 
         ContractorJPA that = (ContractorJPA) o;
 
-        if (contractorId != null ? !contractorId.equals(that.contractorId) : that.contractorId != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (approved != null ? !approved.equals(that.approved) : that.approved != null) return false;
-        if (costModifier != null ? !costModifier.equals(that.costModifier) : that.costModifier != null) return false;
-        if (dateAdded != null ? !dateAdded.equals(that.dateAdded) : that.dateAdded != null) return false;
-        if (dateRemoved != null ? !dateRemoved.equals(that.dateRemoved) : that.dateRemoved != null) return false;
+        if (getContractorId() != null ? !getContractorId().equals(that.getContractorId()) : that.getContractorId() != null) return false;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+        if (getApproved() != null ? !getApproved().equals(that.getApproved()) : that.getApproved() != null) return false;
+        if (getCostModifier() != null ? !getCostModifier().equals(that.getCostModifier()) : that.getCostModifier() != null) return false;
+        if (getDateAdded() != null ? !getDateAdded().equals(that.getDateAdded()) : that.getDateAdded() != null) return false;
+        if (getDateRemoved() != null ? !getDateRemoved().equals(that.getDateRemoved()) : that.getDateRemoved() != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = contractorId != null ? contractorId.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (approved != null ? approved.hashCode() : 0);
-        result = 31 * result + (costModifier != null ? costModifier.hashCode() : 0);
-        result = 31 * result + (dateAdded != null ? dateAdded.hashCode() : 0);
-        result = 31 * result + (dateRemoved != null ? dateRemoved.hashCode() : 0);
+        int result = getContractorId() != null ? getContractorId().hashCode() : 0;
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getApproved() != null ? getApproved().hashCode() : 0);
+        result = 31 * result + (getCostModifier() != null ? getCostModifier().hashCode() : 0);
+        result = 31 * result + (getDateAdded() != null ? getDateAdded().hashCode() : 0);
+        result = 31 * result + (getDateRemoved() != null ? getDateRemoved().hashCode() : 0);
         return result;
     }
 }
