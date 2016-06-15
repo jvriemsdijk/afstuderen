@@ -16,7 +16,6 @@ public class ApplicationJPA {
     private PersonJPA applicant;
     private List<AdjustmentJPA> proposedAdjustments;
     private AdviceJPA advice;
-//    private WmoDecisionJPA decision;
 
 
     @Id
@@ -42,7 +41,7 @@ public class ApplicationJPA {
     }
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "applicant", referencedColumnName = "bsn", nullable = false)
     public PersonJPA getApplicant() {
         return applicant;
@@ -53,7 +52,7 @@ public class ApplicationJPA {
     }
 
 
-    @OneToMany(mappedBy = "application")
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL)
     public List<AdjustmentJPA> getProposedAdjustments() {
         return proposedAdjustments;
     }
@@ -63,7 +62,7 @@ public class ApplicationJPA {
     }
 
 
-    @OneToOne(mappedBy = "application")
+    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL)
     public AdviceJPA getAdvice() {
         return advice;
     }
@@ -71,17 +70,6 @@ public class ApplicationJPA {
     public void setAdvice(AdviceJPA advice) {
         this.advice = advice;
     }
-
-//
-//    @OneToOne
-//    @JoinTable(name = "advice", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "application_id", referencedColumnName = "advice", nullable = false), inverseJoinColumns = @JoinColumn(name = "application", referencedColumnName = "application_id"))
-//    public WmoDecisionJPA getDecision() {
-//        return decision;
-//    }
-//
-//    public void setDecision(WmoDecisionJPA decision) {
-//        this.decision = decision;
-//    }
 
 
     @Override

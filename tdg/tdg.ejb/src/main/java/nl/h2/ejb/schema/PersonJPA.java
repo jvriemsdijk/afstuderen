@@ -29,7 +29,7 @@ public class PersonJPA {
     }
 
 
-    @OneToMany(mappedBy = "applicant")
+    @OneToMany(mappedBy = "applicant", cascade = CascadeType.ALL)
     public List<ApplicationJPA> getApplications() {
         return applications;
     }
@@ -39,7 +39,7 @@ public class PersonJPA {
     }
 
 
-    @OneToMany(mappedBy = "resident")
+    @OneToMany(mappedBy = "resident", cascade = CascadeType.ALL)
     public List<PersonToHousingSituationJPA> getHousingHistory() {
         return housingHistory;
     }

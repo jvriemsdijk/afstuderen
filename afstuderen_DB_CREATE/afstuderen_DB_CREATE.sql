@@ -83,7 +83,7 @@ CREATE TABLE adjustment_definition (
     average_cost DOUBLE PRECISION DEFAULT 0 NOT NULL,
     cost_margin DOUBLE PRECISION DEFAULT 0,
     creation_date TIMESTAMP,
-    version INTEGER DEFAULT 1 NOT NULL
+    version INTEGER DEFAULT 1
 );
 CREATE UNIQUE INDEX adjustment_definition_id_uindex ON adjustment_definition (adjustment_definition_id);
 

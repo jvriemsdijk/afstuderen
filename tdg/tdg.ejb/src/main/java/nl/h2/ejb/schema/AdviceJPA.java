@@ -58,7 +58,7 @@ public class AdviceJPA {
     }
 
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "application", referencedColumnName = "application_id", nullable = false)
     public ApplicationJPA getApplication() {
         return application;
@@ -80,7 +80,7 @@ public class AdviceJPA {
     }
 
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "advice_to_current_condition", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "advice", referencedColumnName = "advice_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "condition", referencedColumnName = "condition_id", nullable = false))
     public List<ConditionJPA> getCurrentConditions() {
         return currentConditions;
@@ -91,7 +91,7 @@ public class AdviceJPA {
     }
 
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "advice_to_future_condition", catalog = "postgres", schema = "public", joinColumns = @JoinColumn(name = "advice", referencedColumnName = "advice_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "condition", referencedColumnName = "condition_id", nullable = false))
     public List<ConditionJPA> getFutureConditions() {
         return futureConditions;
@@ -102,7 +102,7 @@ public class AdviceJPA {
     }
 
 
-    @OneToOne(mappedBy = "advice")
+    @OneToOne(mappedBy = "advice", cascade = CascadeType.ALL)
     public WmoDecisionJPA getDecision() {
         return decision;
     }
@@ -127,7 +127,7 @@ public class AdviceJPA {
 
     @Override
     public int hashCode() {
-        int result = (int) (getAdviceId() ^ (getAdviceId() >>> 32));
+        int result = 32;
         result = 31 * result + (isGoAhead() ? 1 : 0);
         return result;
     }

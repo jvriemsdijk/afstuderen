@@ -25,6 +25,9 @@
           <property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver"/>
           <property name="openjpa.ConnectionUserName" value="postgres"/>
           <property name="openjpa.ConnectionPassword" value="Hydro1234"/>
+
+          <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(foreignKeys=true)"/>
+
       </properties>
   </persistence-unit>
 </persistence>

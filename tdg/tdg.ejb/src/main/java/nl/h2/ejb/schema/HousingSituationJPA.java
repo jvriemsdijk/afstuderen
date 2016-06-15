@@ -53,7 +53,7 @@ public class HousingSituationJPA {
     }
 
 
-    @OneToMany(mappedBy = "housingSituation")
+    @OneToMany(mappedBy = "housingSituation", cascade = CascadeType.ALL)
     public List<HousingSituationToAdjustmentJPA> getPlacedAdjustments() {
         return placedAdjustments;
     }
@@ -63,7 +63,7 @@ public class HousingSituationJPA {
     }
 
 
-    @OneToMany(mappedBy = "housingSituation")
+    @OneToMany(mappedBy = "housingSituation", cascade = CascadeType.ALL)
     public List<PersonToHousingSituationJPA> getResidents() {
         return this.residents;
     }

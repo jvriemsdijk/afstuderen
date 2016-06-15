@@ -93,7 +93,7 @@ public class TrainingDataGeneratorTest {
 
         instance.clearData();
         instance.initialDataLoad();
-        instance.generateTrainingData(5, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(50, 1.5, 0.3, 1.0, 0.0, null);
 //        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
 //        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
 //        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);

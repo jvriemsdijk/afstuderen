@@ -19,7 +19,8 @@ public class AddressJPA {
     private BagJPA bag;
 
 
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "address_id", nullable = false)
     public Long getAddressId() {
         return addressId;
@@ -96,8 +97,7 @@ public class AddressJPA {
     }
 
 
-    @OneToOne
-    @JoinColumn(name = "address_id", referencedColumnName = "address", nullable = false)
+    @OneToOne(mappedBy = "address")
     public BagJPA getBag() {
         return bag;
     }

@@ -282,7 +282,7 @@ public class TrainingDataGenerator {
         showerSeat.setName("Shower seat");
         showerSeat.setAverageCost(400.0);
         showerSeat.setCostMargin(150.0);
-        showerSeat.setVersion(1);
+        showerSeat.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(showerSeat);
         entityManager.flush();
         allAdjustments.add(showerSeat);
@@ -293,6 +293,7 @@ public class TrainingDataGenerator {
         plateauElevator.setName("Plateau elevator");
         plateauElevator.setAverageCost(4500.0);
         plateauElevator.setCostMargin(1000.0);
+        plateauElevator.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(plateauElevator);
         entityManager.flush();
         allAdjustments.add(plateauElevator);
@@ -303,6 +304,7 @@ public class TrainingDataGenerator {
         betweenSteps.setName("Between steps");
         betweenSteps.setAverageCost(850.0);
         betweenSteps.setCostMargin(25.0);
+        betweenSteps.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(betweenSteps);
         entityManager.flush();
         allAdjustments.add(betweenSteps);
@@ -310,9 +312,10 @@ public class TrainingDataGenerator {
         // Standing stair elevator
         AdjustmentDefinitionJPA stairElevatorStanding = new AdjustmentDefinitionJPA();
         stairElevatorStanding.setAdjustmentDefinitionId(4L);
-        stairElevatorStanding.setName("Standing stair elevator");
+        stairElevatorStanding.setName("Stair elevator standing");
         stairElevatorStanding.setAverageCost(5000.0);
         stairElevatorStanding.setCostMargin(500.0);
+        stairElevatorStanding.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(stairElevatorStanding);
         entityManager.flush();
         allAdjustments.add(stairElevatorStanding);
@@ -323,6 +326,7 @@ public class TrainingDataGenerator {
         doorstepHelper.setName("Doorstep helper");
         doorstepHelper.setAverageCost(210.0);
         doorstepHelper.setCostMargin(25.0);
+        doorstepHelper.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(doorstepHelper);
         entityManager.flush();
         allAdjustments.add(doorstepHelper);
@@ -333,6 +337,7 @@ public class TrainingDataGenerator {
         armrests.setName("Armrests");
         armrests.setAverageCost(110.0);
         armrests.setCostMargin(25.0);
+        armrests.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(armrests);
         entityManager.flush();
         allAdjustments.add(armrests);
@@ -343,6 +348,7 @@ public class TrainingDataGenerator {
         heightAdjustableKitchen.setName("Height adjustable kitchen");
         heightAdjustableKitchen.setAverageCost(10000.0);
         heightAdjustableKitchen.setCostMargin(3000.0);
+        heightAdjustableKitchen.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(heightAdjustableKitchen);
         entityManager.flush();
         allAdjustments.add(heightAdjustableKitchen);
@@ -353,6 +359,7 @@ public class TrainingDataGenerator {
         bidetToiletSeat.setName("Bidet toilet seat");
         bidetToiletSeat.setAverageCost(1750.0);
         bidetToiletSeat.setCostMargin(250.0);
+        bidetToiletSeat.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(bidetToiletSeat);
         entityManager.flush();
         allAdjustments.add(bidetToiletSeat);
@@ -363,6 +370,7 @@ public class TrainingDataGenerator {
         bidetToilet.setName("Bidet toilet");
         bidetToilet.setAverageCost(2700.0);
         bidetToilet.setCostMargin(750.0);
+        bidetToilet.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(bidetToilet);
         entityManager.flush();
         allAdjustments.add(bidetToilet);
@@ -373,6 +381,7 @@ public class TrainingDataGenerator {
         toiletBackSupport.setName("Toilet back support");
         toiletBackSupport.setAverageCost(275.0);
         toiletBackSupport.setCostMargin(7.5);
+        toiletBackSupport.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(toiletBackSupport);
         entityManager.flush();
         allAdjustments.add(toiletBackSupport);
@@ -383,6 +392,7 @@ public class TrainingDataGenerator {
         toiletSeatWithArmrests.setName("Toilet seat with armrests");
         toiletSeatWithArmrests.setAverageCost(240.0);
         toiletSeatWithArmrests.setCostMargin(40.0);
+        toiletSeatWithArmrests.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(toiletSeatWithArmrests);
         entityManager.flush();
         allAdjustments.add(toiletSeatWithArmrests);
@@ -393,6 +403,7 @@ public class TrainingDataGenerator {
         heightendToiletSeat.setName("Heightend toilet seat");
         heightendToiletSeat.setAverageCost(100.0);
         heightendToiletSeat.setCostMargin(12.5);
+        heightendToiletSeat.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(heightendToiletSeat);
         entityManager.flush();
         allAdjustments.add(heightendToiletSeat);
@@ -403,6 +414,7 @@ public class TrainingDataGenerator {
         wideToiletSeat.setName("Wide toilet seat");
         wideToiletSeat.setAverageCost(35.0);
         wideToiletSeat.setCostMargin(3.5);
+        wideToiletSeat.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(wideToiletSeat);
         entityManager.flush();
         allAdjustments.add(wideToiletSeat);
@@ -413,6 +425,7 @@ public class TrainingDataGenerator {
         handGrips.setName("Hand grips");
         handGrips.setAverageCost(225.0);
         handGrips.setCostMargin(33.3);
+        handGrips.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(handGrips);
         entityManager.flush();
         allAdjustments.add(handGrips);
@@ -423,6 +436,7 @@ public class TrainingDataGenerator {
         heightendToilet.setName("Heightend toilet");
         heightendToilet.setAverageCost(200.0);
         heightendToilet.setCostMargin(33.3);
+        heightendToilet.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(heightendToilet);
         entityManager.flush();
         allAdjustments.add(heightendToilet);
@@ -433,6 +447,7 @@ public class TrainingDataGenerator {
         electricalDoor.setName("Electrical door");
         electricalDoor.setAverageCost(2200.0);
         electricalDoor.setCostMargin(666.7);
+        electricalDoor.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(electricalDoor);
         entityManager.flush();
         allAdjustments.add(electricalDoor);
@@ -443,6 +458,7 @@ public class TrainingDataGenerator {
         antiSlipMat.setName("Anti slip mat");
         antiSlipMat.setAverageCost(30.0);
         antiSlipMat.setCostMargin(10.0);
+        antiSlipMat.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(antiSlipMat);
         entityManager.flush();
         allAdjustments.add(antiSlipMat);
@@ -453,6 +469,7 @@ public class TrainingDataGenerator {
         handrail.setName("Handrail");
         handrail.setAverageCost(340.0);
         handrail.setCostMargin(100.0);
+        handrail.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(handrail);
         entityManager.flush();
         allAdjustments.add(handrail);
@@ -463,6 +480,7 @@ public class TrainingDataGenerator {
         ceilingMountedPatientElevator.setName("Ceiling mounted patient elevator");
         ceilingMountedPatientElevator.setAverageCost(6500.0);
         ceilingMountedPatientElevator.setCostMargin(1166.6);
+        ceilingMountedPatientElevator.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(ceilingMountedPatientElevator);
         entityManager.flush();
         allAdjustments.add(ceilingMountedPatientElevator);
@@ -473,6 +491,7 @@ public class TrainingDataGenerator {
         passivePatientElevator.setName("Passive patient elevator");
         passivePatientElevator.setAverageCost(5000.0);
         passivePatientElevator.setCostMargin(666.7);
+        passivePatientElevator.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(passivePatientElevator);
         entityManager.flush();
         allAdjustments.add(passivePatientElevator);
@@ -483,6 +502,7 @@ public class TrainingDataGenerator {
         wallMountedPatientElevator.setName("Wall mounted patient elevator");
         wallMountedPatientElevator.setAverageCost(5000.0);
         wallMountedPatientElevator.setCostMargin(1000.0);
+        wallMountedPatientElevator.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(wallMountedPatientElevator);
         entityManager.flush();
         allAdjustments.add(wallMountedPatientElevator);
@@ -493,6 +513,7 @@ public class TrainingDataGenerator {
         liftingSling.setName("Lifting sling");
         liftingSling.setAverageCost(825.0);
         liftingSling.setCostMargin(225.0);
+        liftingSling.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(liftingSling);
         entityManager.flush();
         allAdjustments.add(liftingSling);
@@ -503,6 +524,7 @@ public class TrainingDataGenerator {
         supportPole.setName("Support pole");
         supportPole.setAverageCost(375.0);
         supportPole.setCostMargin(41.7);
+        supportPole.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(supportPole);
         entityManager.flush();
         allAdjustments.add(supportPole);
@@ -513,6 +535,7 @@ public class TrainingDataGenerator {
         stairElevatorSeat.setName("Stair elevator seat");
         stairElevatorSeat.setAverageCost(5000.0);
         stairElevatorSeat.setCostMargin(500.0);
+        stairElevatorSeat.setConditions(new ArrayList<ConditionJPA>());
         entityManager.persist(stairElevatorSeat);
         entityManager.flush();
         allAdjustments.add(stairElevatorSeat);
@@ -656,11 +679,181 @@ public class TrainingDataGenerator {
         Connect Adjustment definition to conditions
          */
 
+        // Anti slip mat Conditions
+        antiSlipMat.getConditions().add(minorMovementImpairment);
+        antiSlipMat.getConditions().add(mediumMovementImpairment);
+        antiSlipMat.getConditions().add(severeMovementImpairment);
+        antiSlipMat.getConditions().add(minorMovementImpairmentChronic);
+        antiSlipMat.getConditions().add(mediumMovementImpairmentChronic);
+        antiSlipMat.getConditions().add(severeMovementImpairmentChronic);
+        entityManager.merge(antiSlipMat);
+        entityManager.flush();
+
+        // Shower seat Conditions
+        showerSeat.getConditions().add(minorMovementImpairment);
+        showerSeat.getConditions().add(mediumMovementImpairment);
+        showerSeat.getConditions().add(severeMovementImpairment);
+        showerSeat.getConditions().add(wheelchairBound);
+        showerSeat.getConditions().add(minorMovementImpairmentChronic);
+        showerSeat.getConditions().add(mediumMovementImpairmentChronic);
+        showerSeat.getConditions().add(severeMovementImpairmentChronic);
+        showerSeat.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(showerSeat);
+        entityManager.flush();
+
+        // Armrests Conditions
+        armrests.getConditions().add(minorMovementImpairment);
+        armrests.getConditions().add(mediumMovementImpairment);
+        armrests.getConditions().add(severeMovementImpairment);
+        armrests.getConditions().add(minorMovementImpairmentChronic);
+        armrests.getConditions().add(mediumMovementImpairmentChronic);
+        armrests.getConditions().add(severeMovementImpairmentChronic);
+        armrests.getConditions().add(impairedMotorFunctionArms);
+        armrests.getConditions().add(obesistas);
+        entityManager.merge(armrests);
+        entityManager.flush();
+
+        // Toilet back support Conditions
+        toiletBackSupport.getConditions().add(severeMovementImpairment);
+        toiletBackSupport.getConditions().add(mediumMovementImpairmentChronic);
+        toiletBackSupport.getConditions().add(severeMovementImpairmentChronic);
+        toiletBackSupport.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(toiletBackSupport);
+        entityManager.flush();
+
+        // Toilet seat with armrests Conditions
+        toiletSeatWithArmrests.getConditions().add(mediumMovementImpairment);
+        toiletSeatWithArmrests.getConditions().add(severeMovementImpairment);
+        toiletSeatWithArmrests.getConditions().add(impairedMotorFunctionArms);
+        entityManager.merge(toiletSeatWithArmrests);
+        entityManager.flush();
+
+        // Heightend toilet seat Conditions
+        heightendToiletSeat.getConditions().add(mediumMovementImpairment);
+        heightendToiletSeat.getConditions().add(severeMovementImpairment);
+        heightendToiletSeat.getConditions().add(wheelchairBound);
+        heightendToiletSeat.getConditions().add(minorMovementImpairmentChronic);
+        entityManager.merge(heightendToiletSeat);
+        entityManager.flush();
+
+        // Between steps Conditions
+        betweenSteps.getConditions().add(mediumMovementImpairment);
+        betweenSteps.getConditions().add(mediumMovementImpairmentChronic);
+        entityManager.merge(betweenSteps);
+        entityManager.flush();
 
 
+        // Door step helper Conditions
+        doorstepHelper.getConditions().add(severeMovementImpairment);
+        doorstepHelper.getConditions().add(wheelchairBound);
+        doorstepHelper.getConditions().add(minorMovementImpairmentChronic);
+        doorstepHelper.getConditions().add(mediumMovementImpairmentChronic);
+        doorstepHelper.getConditions().add(severeMovementImpairmentChronic);
+        doorstepHelper.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(doorstepHelper);
+        entityManager.flush();
 
+        // Support pole Conditions
+        supportPole.getConditions().add(severeMovementImpairment);
+        supportPole.getConditions().add(wheelchairBound);
+        supportPole.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(supportPole);
+        entityManager.flush();
 
+        // Stair elevator seat
+        stairElevatorSeat.getConditions().add(severeMovementImpairment);
+        stairElevatorSeat.getConditions().add(wheelchairBound);
+        stairElevatorSeat.getConditions().add(severeMovementImpairmentChronic);
+        stairElevatorSeat.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(stairElevatorSeat);
+        entityManager.flush();
 
+        // Stair elevator standing Conditions
+        stairElevatorStanding.getConditions().add(severeMovementImpairment);
+        stairElevatorStanding.getConditions().add(mediumMovementImpairmentChronic);
+        entityManager.merge(stairElevatorStanding);
+        entityManager.flush();
+
+        // Hand grips
+        handGrips.getConditions().add(wheelchairBound);
+        handGrips.getConditions().add(minorMovementImpairmentChronic);
+        handGrips.getConditions().add(mediumMovementImpairmentChronic);
+        handGrips.getConditions().add(severeMovementImpairmentChronic);
+        handGrips.getConditions().add(wheelchairBoundChronic);
+        handGrips.getConditions().add(obesistas);
+        entityManager.merge(handGrips);
+        entityManager.flush();
+
+        // Passive patient elevator
+        passivePatientElevator.getConditions().add(wheelchairBound);
+        passivePatientElevator.getConditions().add(severeMovementImpairmentChronic);
+        passivePatientElevator.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(passivePatientElevator);
+        entityManager.flush();
+
+        // Handrail Conditions
+        handrail.getConditions().add(minorMovementImpairmentChronic);
+        handrail.getConditions().add(mediumMovementImpairmentChronic);
+        handrail.getConditions().add(severeMovementImpairmentChronic);
+        handrail.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(handrail);
+        entityManager.flush();
+
+        // Heightend toilet Conditions
+        heightendToilet.getConditions().add(mediumMovementImpairmentChronic);
+        heightendToilet.getConditions().add(severeMovementImpairmentChronic);
+        heightendToilet.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(heightendToilet);
+        entityManager.flush();
+
+        // Bidet toilet seat Conditions
+        bidetToiletSeat.getConditions().add(severeMovementImpairmentChronic);
+        bidetToiletSeat.getConditions().add(impairedMotorFunctionArms);
+        entityManager.merge(bidetToiletSeat);
+        entityManager.flush();
+
+        // Lifting sling Conditions
+        liftingSling.getConditions().add(severeMovementImpairmentChronic);
+        liftingSling.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(liftingSling);
+        entityManager.flush();
+
+        // Height adjustable kitchen Conditions
+        heightAdjustableKitchen.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(heightAdjustableKitchen);
+        entityManager.flush();
+
+        // Electrical door Conditions
+        electricalDoor.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(electricalDoor);
+        entityManager.flush();
+
+        // Plateau elevator Conditions
+        plateauElevator.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(plateauElevator);
+        entityManager.flush();
+
+        // Bidet toilet Conditions
+        bidetToilet.getConditions().add(wheelchairBoundChronic);
+        bidetToilet.getConditions().add(impairedMotorFunctionArms);
+        bidetToilet.getConditions().add(obesistas);
+        entityManager.merge(bidetToilet);
+        entityManager.flush();
+
+        // Ceiling mounted patient elevator Conditions
+        ceilingMountedPatientElevator.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(ceilingMountedPatientElevator);
+        entityManager.flush();
+
+        // Wall mounted patient elevator Condtions
+        wallMountedPatientElevator.getConditions().add(wheelchairBoundChronic);
+        entityManager.merge(wallMountedPatientElevator);
+        entityManager.flush();
+
+        // Wide toilet seat Conditions
+        wideToiletSeat.getConditions().add(obesistas);
+        entityManager.merge(wideToiletSeat);
+        entityManager.flush();
 
 
         /*
@@ -818,10 +1011,6 @@ public class TrainingDataGenerator {
         allContractors.add(allesKanWeerHeel);
 
 
-        for (AdjustmentDefinitionJPA adjustmentDefinition : allAdjustments) {
-            entityManager.refresh(adjustmentDefinition);
-        }
-
         System.out.println("End initial data load");
 
     }
@@ -859,6 +1048,7 @@ public class TrainingDataGenerator {
         PersonToHousingSituationJPA resident = new PersonToHousingSituationJPA();
         resident.setResident(applicant);
         resident.setMoveInDate(new Date());
+        resident.setHousingSituation(housingSituation);
         housingSituation.getResidents().add(resident);
 
         // Generate extra residents, if applicable
@@ -870,6 +1060,7 @@ public class TrainingDataGenerator {
                 baseBsn++;
                 person.setBsn(baseBsn);
                 extraResident.setResident(person);
+                extraResident.setHousingSituation(housingSituation);
                 housingSituation.getResidents().add(extraResident);
             }
         }
@@ -933,11 +1124,13 @@ public class TrainingDataGenerator {
             // Create new adjustment
             AdjustmentJPA proposedAdjustment = new AdjustmentJPA();
             proposedAdjustment.setAdjustmentDefinition(selectedAdjustment);
+            proposedAdjustment.setApplication(application);
 
             // Add a contractor to the proposed adjustment
             proposedAdjustment.setContractor(allContractors.get(getRandom().nextInt(allContractors.size())));
 
             // Calculate cost of the adjustment
+            // TODO : take into account the age of the building
             proposedAdjustment.setActualCost(calculateAbsoluteGaussian(selectedAdjustment.getAverageCost(), selectedAdjustment.getCostMargin()) * (1 + proposedAdjustment.getContractor().getCostModifier()));
 
             // Add the proposed adjustment to the list
@@ -1162,6 +1355,13 @@ public class TrainingDataGenerator {
 
                     decision.setGranted(false);
                     decision.setReason(Constants.WMO_REJECTED_BUDGET);
+                    for (AdjustmentJPA otherAdjustment : otherAdjustments) {
+                        otherAdjustment.setCostSubsidized(0.0);
+                    }
+
+                    for (AdjustmentJPA stairElevatorAdjustment : stairElevatorAdjustments) {
+                        stairElevatorAdjustment.setCostSubsidized(0.0);
+                    }
                 }
 
 
@@ -1231,122 +1431,6 @@ public class TrainingDataGenerator {
     }
 
 
-//
-//    public WmoDecisionJPA judgeApplication(PersonJPA person, HousingSituationJPA housingSituation, List<AdjustmentJPA> proposedAdjustments, AdviceJPA advice, double remainingBudget) {
-//
-//        // Create the decision
-//        WmoDecisionJPA decision = new WmoDecisionJPA();
-//        decision.setAdjustments(proposedAdjustments);
-//        decision.setAdvice(advice);
-//        boolean stairElevator = false;
-//
-//        // Check for go ahead in advice
-//        if (advice.isGoAhead()) {
-//
-//            // Check total costs against the remaining budget
-//            double totalCost = 0.0;
-//            for (AdjustmentJPA proposedAdjustment : proposedAdjustments) {
-//                totalCost += proposedAdjustment.getActualCost();
-//            }
-//
-//            // Also take into account any previously granted adjustments
-//            double costHistory = 0.0;
-//            if (person.getAdjustmentHistory() != null) {
-//                for (AdjustmentJPA adjustment : person.getAdjustmentHistory()) {
-//                    costHistory += adjustment.getActualCost();
-//                }
-//            }
-//
-//
-//            if (remainingBudget > (totalCost + costHistory)) {
-//
-//                // Check for stair elevator application
-//                for (AdjustmentJPA proposedAdjustment : proposedAdjustments) {
-//                    if (proposedAdjustment.getAdjustmentDefinition().getName().contains("Stair elevator")) {
-//                        stairElevator = true;
-//                    }
-//                }
-//
-//                // If the application is for an elevator, check the housing situation
-//                if (stairElevator) {
-//
-//                    if (housingSituation.isElevator()) {
-//                        // If the housing situation already includes an elevator, reject the application
-//                        decision.setGranted(false);
-//                        decision.setException(false);
-//                        decision.setReason("Application for stair elevator rejected due to an already existing elevator.");
-//
-//                    } else if (housingSituation.getFloor() > 1) {
-//                        // Stair elevators are not granted for floors higher than the first floor
-//                        decision.setGranted(false);
-//                        decision.setException(false);
-//                        decision.setReason("Application rejected due to stair elevator to a too high a floor.");
-//
-//                        /**
-//                         * NOTE : this excludes interiour elevators which are left out of the scope of this test
-//                         */
-//                    }
-//                }
-//
-//                // Check for already placed adjustments
-//
-//
-//                // Application is valid in theory, add small chance for exception
-//                if (getRandom().nextDouble() <= 0.005) {
-//                    decision.setGranted(false);
-//                    decision.setException(true);
-//                    decision.setReason("Application rejected due to extrernal circumstances.");
-//                } else {
-//                    decision.setGranted(true);
-//                    decision.setException(false);
-//                    decision.setReason("Application granted.");
-//
-//                    if (stairElevator) {
-//                        // In case the application for a stair elevator is granted, add elevator to the housing situation
-//                        housingSituation.setElevator(true);
-//                    }
-//                }
-//
-//
-//            } else if (remainingBudget < totalCost) {
-//
-//                // Application is technically invalid, add small chance for exception-*-
-//                if (getRandom().nextDouble() <= 0.01) {
-//                    decision.setGranted(true);
-//                    decision.setException(true);
-//                    decision.setReason("Application granted due to external circumstances.");
-//                } else {
-//
-//
-//                    // TODO : Expand with partial payments
-//
-//
-//                    decision.setGranted(false);
-//                    decision.setException(false);
-//                    decision.setReason("Application rejected due to high costs.");
-//                }
-//
-//            } else {
-//
-//                // The applicant has alread recieved a their allotted budget
-//                decision.setGranted(false);
-//                decision.setException(false);
-//                decision.setReason("Application rejected because the applicant has already recieved their allowed budget.");
-//
-//            }
-//
-//        } else {
-//            // In the case of no go ahead, the application will not be granted
-//            decision.setGranted(false);
-//            decision.setException(false);
-//            decision.setReason("Application rejected due to no go ahead from Idicatie Advies Bureau.");
-//        }
-//
-//
-//        return decision;
-//    }
-//
-
     /**
      * Shortcut method for the calculation of an absolute Gaussian distribution.
      *
@@ -1356,29 +1440,6 @@ public class TrainingDataGenerator {
      */
     private double calculateAbsoluteGaussian(double mean, double sigma) {
         return Math.abs(getRandom().nextGaussian() * sigma + mean);
-    }
-
-
-    /**
-     * Method which returns the total spent on a person in all previously granted adjustments.
-     *
-     * @param person - Person for whom the total needs to be calculated
-     * @return Double with the total spent on the given person
-     */
-    private double getTotalSpentFromPerson(PersonJPA person) {
-        double totalSpent = 0.0;
-
-//        if (person.getAdvice() != null && person.getAdvice().size() >= 1) {
-//            for (AdviceJPA advice : person.getAdvice()) {
-//                if (advice.isGoAhead() && advice.getDecision().isGranted()) {
-//                    for (AdjustmentJPA adjustment : advice.getDecision().getAdjustments()) {
-//                        totalSpent += adjustment.getActualCost();
-//                    }
-//                }
-//            }
-//        }
-
-        return totalSpent;
     }
 
 

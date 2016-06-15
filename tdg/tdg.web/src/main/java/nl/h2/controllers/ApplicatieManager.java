@@ -35,7 +35,8 @@ public class ApplicatieManager implements Serializable {
     }
 
     public String getHelloWorld() throws InterneException {
-        return trainingDataGenerator.sayHello("Johan Cruijf");
+//        return trainingDataGenerator.sayHello("Johan Cruijf");
+        return "Hello world";
     }
 
     public String getApplicatieNaam() {

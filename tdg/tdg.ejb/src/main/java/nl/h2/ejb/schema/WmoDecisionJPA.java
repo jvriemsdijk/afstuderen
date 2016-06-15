@@ -19,7 +19,6 @@ public class WmoDecisionJPA {
     private boolean exception;
     private AdviceJPA advice;
     private Date date;
-//    private ApplicationJPA application;
 
 
     @Id
@@ -67,7 +66,7 @@ public class WmoDecisionJPA {
     }
 
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "advice", referencedColumnName = "advice_id", nullable = false)
     public AdviceJPA getAdvice() {
         return advice;
@@ -89,16 +88,6 @@ public class WmoDecisionJPA {
     }
 
 
-//    @OneToOne
-//    public ApplicationJPA getApplication() {
-//        return application;
-//    }
-//
-//    public void setApplication(ApplicationJPA application) {
-//        this.application = application;
-//    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -116,7 +105,7 @@ public class WmoDecisionJPA {
 
     @Override
     public int hashCode() {
-        int result = (int) (getWmoDecisionId() ^ (getWmoDecisionId() >>> 32));
+        int result = 675;
         result = 31 * result + (isGranted() ? 1 : 0);
         result = 31 * result + (getReason() != null ? getReason().hashCode() : 0);
         result = 31 * result + (isException() ? 1 : 0);

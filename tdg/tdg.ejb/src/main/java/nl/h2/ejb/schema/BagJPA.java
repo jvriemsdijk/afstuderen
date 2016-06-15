@@ -56,7 +56,8 @@ public class BagJPA {
     }
 
 
-    @OneToOne(mappedBy = "bag")
+    @OneToOne
+    @JoinColumn(name = "address", referencedColumnName = "address_id", nullable = false)
     public AddressJPA getAddress() {
         return address;
     }

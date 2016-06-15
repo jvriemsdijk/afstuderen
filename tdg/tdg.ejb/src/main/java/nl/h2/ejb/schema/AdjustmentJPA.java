@@ -88,7 +88,7 @@ public class AdjustmentJPA {
     }
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "application", referencedColumnName = "application_id")
     public ApplicationJPA getApplication() {
         return application;
@@ -115,7 +115,7 @@ public class AdjustmentJPA {
 
     @Override
     public int hashCode() {
-        int result = (int) (getAdjustmentId() ^ (getAdjustmentId() >>> 32));
+        int result = 6409;
         result = 31 * result + (getActualCost() != null ? getActualCost().hashCode() : 0);
         return result;
     }
