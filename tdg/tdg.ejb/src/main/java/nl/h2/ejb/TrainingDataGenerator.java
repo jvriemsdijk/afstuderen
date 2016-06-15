@@ -1250,7 +1250,6 @@ public class TrainingDataGenerator {
         boolean applicationForStairElevator = false;
         double remainingBudget = BUDGET;
         List<AdjustmentJPA> stairElevatorAdjustments = new ArrayList<AdjustmentJPA>();
-        List<AdjustmentJPA> rejectedAdjustments = irrelevantProposedAdjustments;
         List<AdjustmentJPA> otherAdjustments = new ArrayList<AdjustmentJPA>();
 
 
@@ -1280,7 +1279,7 @@ public class TrainingDataGenerator {
                 if (housingSituation.isElevator() || housingSituation.getFloor() >= 2) {
 
                     // There already is an elevator present, or the residence floor is too high; no stair elevator granted
-                    rejectedAdjustments.addAll(stairElevatorAdjustments);
+                    irrelevantProposedAdjustments.addAll(stairElevatorAdjustments);
                     stairElevatorAdjustments.clear();
 
                 } else if (stairElevatorAdjustments.size() > 1) {
@@ -1301,9 +1300,6 @@ public class TrainingDataGenerator {
             // Check if there are application left which are not yet rejected
             if (otherAdjustments.size() > 0 || stairElevatorAdjustments.size() > 0) {
 
-                // TODO : budget check for previous applications of the applicant
-
-
                 // Budget check of current application
                 for (AdjustmentJPA otherAdjustment : otherAdjustments) {
                     remainingBudget -= otherAdjustment.getActualCost();
@@ -1318,7 +1314,7 @@ public class TrainingDataGenerator {
                     // Budget left; application granted
                     decision.setGranted(true);
 
-                    if (rejectedAdjustments.size() > 0) {
+                    if (irrelevantProposedAdjustments.size() > 0) {
                         // In case of rejected adjustments; partial grant
                         if (applicationForStairElevator && stairElevatorAdjustments.size() == 0) {
 
@@ -1351,19 +1347,98 @@ public class TrainingDataGenerator {
 
                 } else {
 
-                    // TODO : Over budget, check for partial grant possibilities
+                    // Over budget, check for partial grant possibilities
+                    boolean checkTotalBudget = false;
 
-                    decision.setGranted(false);
-                    decision.setReason(Constants.WMO_REJECTED_BUDGET);
+                    // Check if there are adjustments at higher cost than the average
+                    List<AdjustmentJPA> adjustmentsOverAverage = new ArrayList<AdjustmentJPA>();
+                    List<AdjustmentJPA> adjustmentsUnderAverage = new ArrayList<AdjustmentJPA>();
                     for (AdjustmentJPA otherAdjustment : otherAdjustments) {
-                        otherAdjustment.setCostSubsidized(0.0);
+                        if (otherAdjustment.getActualCost() > otherAdjustment.getAdjustmentDefinition().getAverageCost()) {
+                            adjustmentsOverAverage.add(otherAdjustment);
+                        } else {
+                            adjustmentsUnderAverage.add(otherAdjustment);
+                        }
                     }
 
                     for (AdjustmentJPA stairElevatorAdjustment : stairElevatorAdjustments) {
-                        stairElevatorAdjustment.setCostSubsidized(0.0);
+                        if (stairElevatorAdjustment.getActualCost() > stairElevatorAdjustment.getAdjustmentDefinition().getAverageCost()) {
+                            adjustmentsOverAverage.add(stairElevatorAdjustment);
+                        } else {
+                            adjustmentsUnderAverage.add(stairElevatorAdjustment);
+                        }
+                    }
+
+                    if (adjustmentsOverAverage.size() > 0) {
+                        // In case of adjustments which are over the average cost, recalculate the budget with the
+                        // overcosted adjustments set to the average
+
+                        double recalculatedBudgetRemaining = getBUDGET();
+
+                        for (AdjustmentJPA adjustmentOverAverage : adjustmentsOverAverage) {
+                            recalculatedBudgetRemaining -= adjustmentOverAverage.getAdjustmentDefinition().getAverageCost();
+                        }
+
+                        for (AdjustmentJPA adjustmentUnderAverage : adjustmentsUnderAverage) {
+                            recalculatedBudgetRemaining -= adjustmentUnderAverage.getActualCost();
+                        }
+
+                        if (recalculatedBudgetRemaining > 0) {
+                            // Budget remaining; application partially granted
+                            decision.setGranted(true);
+                            decision.setReason(Constants.WMO_GRANTED_PARTIAL);
+
+                            for (AdjustmentJPA adjustmentOverAverage : adjustmentsOverAverage) {
+                                adjustmentOverAverage.setCostSubsidized(adjustmentOverAverage.getAdjustmentDefinition().getAverageCost());
+                            }
+
+                            for (AdjustmentJPA adjustmentUnderAverage : adjustmentsUnderAverage) {
+                                adjustmentUnderAverage.setCostSubsidized(adjustmentUnderAverage.getActualCost());
+                            }
+
+
+                        } else {
+                            // If the cost reduction is not enough to reduce to under budget, check the total budget
+                            checkTotalBudget = true;
+                        }
+
+
+                    } else {
+                        // If all adjustments are under the average cost, check the total budget
+                        checkTotalBudget = true;
+                    }
+
+                    // Total budget check
+                    if (checkTotalBudget) {
+
+                        // Check the total cost of the application
+                        double totalCost = 0.0;
+                        for (AdjustmentJPA adjustmentJPA : relevantProposedAdjustments) {
+                            totalCost += adjustmentJPA.getActualCost();
+                        }
+
+                        if (totalCost > 1.5 * getBUDGET()) {
+
+                            // Total cost is far over budget, reject full application
+                            decision.setGranted(false);
+                            decision.setReason(Constants.WMO_REJECTED_BUDGET);
+
+                            for (AdjustmentJPA relevantProposedAdjustment : relevantProposedAdjustments) {
+                                relevantProposedAdjustment.setCostSubsidized(0.0);
+                            }
+                        } else {
+
+                            // Total cost is slightly over budget, reduce subsidized cost to full budget
+                            decision.setGranted(true);
+                            decision.setReason(Constants.WMO_GRANTED_PARTIAL);
+
+                            double costReduction = getBUDGET() / totalCost;
+                            for (AdjustmentJPA relevantProposedAdjustment : relevantProposedAdjustments) {
+                                relevantProposedAdjustment.setCostSubsidized(costReduction * relevantProposedAdjustment.getActualCost());
+                            }
+                        }
                     }
                 }
-
 
             } else {
 
@@ -1416,7 +1491,7 @@ public class TrainingDataGenerator {
         }
 
         // Set cost subsidized on rejected adjustments
-        for (AdjustmentJPA rejectedAdjustment : rejectedAdjustments) {
+        for (AdjustmentJPA rejectedAdjustment : irrelevantProposedAdjustments) {
             rejectedAdjustment.setCostSubsidized(0.0);
         }
 
@@ -1425,7 +1500,7 @@ public class TrainingDataGenerator {
         application.getProposedAdjustments().clear();
         application.getProposedAdjustments().addAll(otherAdjustments);
         application.getProposedAdjustments().addAll(stairElevatorAdjustments);
-        application.getProposedAdjustments().addAll(rejectedAdjustments);
+        application.getProposedAdjustments().addAll(irrelevantProposedAdjustments);
 
         return decision;
     }
@@ -1460,6 +1535,14 @@ public class TrainingDataGenerator {
     }
 
 
+    /**
+     * Generates a List of randomly selected conditions with a length from the given minLength to the given maxLength.
+     * The conditions are selected from the condition probability map with the given probability.
+     *
+     * @param minLength - The minimum length of the List of Comditions
+     * @param maxLength - The maximun length of the List of Conditions
+     * @return List of Conditions
+     */
     private List<ConditionJPA> getRandomConditionList(int minLength, int maxLength) {
 
         List<ConditionJPA> conditionList = new ArrayList<ConditionJPA>(maxLength);
@@ -1473,7 +1556,6 @@ public class TrainingDataGenerator {
 
         return conditionList;
     }
-
 
 
     /*
@@ -1490,5 +1572,57 @@ public class TrainingDataGenerator {
 
     public void setRandom(Random random) {
         this.random = random;
+    }
+
+    public double getBUDGET() {
+        return BUDGET;
+    }
+
+    public int getBaseBsn() {
+        return baseBsn;
+    }
+
+    public void setBaseBsn(int baseBsn) {
+        this.baseBsn = baseBsn;
+    }
+
+    public Map<ConditionJPA, Double> getConditionProbabilityMap() {
+        return conditionProbabilityMap;
+    }
+
+    public void setConditionProbabilityMap(Map<ConditionJPA, Double> conditionProbabilityMap) {
+        this.conditionProbabilityMap = conditionProbabilityMap;
+    }
+
+    public List<ConditionJPA> getAllConditions() {
+        return allConditions;
+    }
+
+    public void setAllConditions(List<ConditionJPA> allConditions) {
+        this.allConditions = allConditions;
+    }
+
+    public List<AdjustmentDefinitionJPA> getAllAdjustments() {
+        return allAdjustments;
+    }
+
+    public void setAllAdjustments(List<AdjustmentDefinitionJPA> allAdjustments) {
+        this.allAdjustments = allAdjustments;
+    }
+
+    public List<ContractorJPA> getAllContractors() {
+        return allContractors;
+    }
+
+    public void setAllContractors(List<ContractorJPA> allContractors) {
+        this.allContractors = allContractors;
+    }
+
+    public int getTotalApplications() {
+        return totalApplications;
+    }
+
+    public void setTotalApplications(int totalApplications) {
+        this.totalApplications = totalApplications;
     }
 }
