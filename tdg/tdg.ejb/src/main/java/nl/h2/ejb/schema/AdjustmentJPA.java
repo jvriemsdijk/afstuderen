@@ -78,7 +78,7 @@ public class AdjustmentJPA {
     }
 
 
-    @OneToOne(mappedBy = "adjustment")
+    @OneToOne(mappedBy = "adjustment", cascade = CascadeType.ALL)
     public HousingSituationToAdjustmentJPA getInstallationPeriod() {
         return installationPeriod;
     }

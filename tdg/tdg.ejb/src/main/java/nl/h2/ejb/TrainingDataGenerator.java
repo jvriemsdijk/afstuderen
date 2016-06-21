@@ -1045,6 +1045,7 @@ public class TrainingDataGenerator {
         housingSituation.setFloor((short) calculateAbsoluteGaussian(2.0, 1.0));
         housingSituation.setElevator(getRandom().nextBoolean());
         housingSituation.setResidents(new ArrayList<PersonToHousingSituationJPA>());
+        housingSituation.setPlacedAdjustments(new ArrayList<HousingSituationToAdjustmentJPA>());
         PersonToHousingSituationJPA resident = new PersonToHousingSituationJPA();
         resident.setResident(applicant);
         resident.setMoveInDate(new Date());
@@ -1133,16 +1134,20 @@ public class TrainingDataGenerator {
             // TODO : take into account the age of the building
             proposedAdjustment.setActualCost(calculateAbsoluteGaussian(selectedAdjustment.getAverageCost(), selectedAdjustment.getCostMargin()) * (1 + proposedAdjustment.getContractor().getCostModifier()));
 
+            // Add the adjustment to the housing situation
+            HousingSituationToAdjustmentJPA installationPeriod = new HousingSituationToAdjustmentJPA();
+            installationPeriod.setAdjustment(proposedAdjustment);
+            installationPeriod.setDatePlaced(new Date());
+            installationPeriod.setHousingSituation(housingSituation);
+            proposedAdjustment.setInstallationPeriod(installationPeriod);
+            housingSituation.getPlacedAdjustments().add(installationPeriod);
+
             // Add the proposed adjustment to the list
             proposedAdjustments.add(proposedAdjustment);
         }
 
         // Add proposed adjustments to the application
         application.setProposedAdjustments(proposedAdjustments);
-
-
-        // TODO : Save the application??? ==> TEST THIS!
-
 
         // Create matching advice
         application.setAdvice(createAdviceForApplication(application, housingSituation, actualConditions));

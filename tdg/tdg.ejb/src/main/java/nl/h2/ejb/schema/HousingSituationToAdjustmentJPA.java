@@ -38,7 +38,7 @@ public class HousingSituationToAdjustmentJPA {
     }
 
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "adjustment", referencedColumnName = "adjustment_id", nullable = false)
     public AdjustmentJPA getAdjustment() {
         return adjustment;
@@ -49,7 +49,7 @@ public class HousingSituationToAdjustmentJPA {
     }
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "housing_situation", referencedColumnName = "housing_situation_id", nullable = false)
     public HousingSituationJPA getHousingSituation() {
         return housingSituation;
