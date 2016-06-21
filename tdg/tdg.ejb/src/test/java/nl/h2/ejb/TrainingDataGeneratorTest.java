@@ -96,6 +96,12 @@ public class TrainingDataGeneratorTest {
         instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
         instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
         instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 2.5, 0.5, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.2, 0.3, 1.0, 0.0, null);
         instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
         instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
         instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
@@ -110,9 +116,7 @@ public class TrainingDataGeneratorTest {
         instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
         instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
         instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(2000, 1.5, 0.3, 1.0, 0.0, null);
 
     }
 
