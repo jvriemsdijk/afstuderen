@@ -1041,11 +1041,8 @@ public class TrainingDataGenerator {
             actualConditions = getRandomConditionList(1, 3);
         }
 
-        // Select a random address location from the csv (roughly 5.8k options)
-        BagJPA bag = getBagList().get(getRandom().nextInt(getBagList().size()));
-
-        // Add a random build year to the BAG from the last 130 years
-        bag.setBuildYear((short) (2016 - getRandom().nextInt(130)));
+        // Select a random address location from the csv
+        BagJPA bag = createBagAndAddress();
 
         // Create new housing situation
         HousingSituationJPA housingSituation = new HousingSituationJPA();
@@ -1089,6 +1086,37 @@ public class TrainingDataGenerator {
         entityManager.flush();
     }
 
+
+    /**
+     * Private method to create a random BAG entity complete with address in Amsterdam with a random build year
+     * somewhere in the last 130 years.
+     *
+     * @return Generated BagJPA
+     */
+    private BagJPA createBagAndAddress() {
+
+        // Select a random address from the csv
+        BagJPA selectedBagAndAddress = getBagList().get(getRandom().nextInt(getBagList().size()));
+
+        // Create a copy of the selected bag and address
+        BagJPA bag = new BagJPA();
+        AddressJPA address = new AddressJPA();
+        bag.setAddress(address);
+        bag.setX(selectedBagAndAddress.getX());
+        bag.setY(selectedBagAndAddress.getY());
+        bag.setUsePurpose(selectedBagAndAddress.getUsePurpose());
+        address.setCountry(selectedBagAndAddress.getAddress().getCountry());
+        address.setBag(bag);
+        address.setZipcode(selectedBagAndAddress.getAddress().getZipcode());
+        address.setNumber(selectedBagAndAddress.getAddress().getNumber());
+        address.setCity(selectedBagAndAddress.getAddress().getCity());
+        address.setStreet(selectedBagAndAddress.getAddress().getStreet());
+
+        // Add a random build year to the BAG from the last 130 years
+        bag.setBuildYear((short) (2016 - getRandom().nextInt(130)));
+
+        return bag;
+    }
 
     /**
      * Method to create an application for the given applicant. Complete with advice and final WMO decision.

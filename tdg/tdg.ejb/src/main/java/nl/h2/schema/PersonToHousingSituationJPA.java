@@ -37,7 +37,7 @@ public class PersonToHousingSituationJPA {
     }
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "housing_situation", referencedColumnName = "housing_situation_id", nullable = false)
     public HousingSituationJPA getHousingSituation() {
         return housingSituation;
@@ -48,7 +48,7 @@ public class PersonToHousingSituationJPA {
     }
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person", referencedColumnName = "bsn", nullable = false)
     public PersonJPA getResident() {
         return resident;
