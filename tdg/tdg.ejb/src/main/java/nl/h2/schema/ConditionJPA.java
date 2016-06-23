@@ -1,4 +1,4 @@
-package nl.h2.ejb.schema;
+package nl.h2.schema;
 
 import javax.persistence.*;
 import java.util.List;

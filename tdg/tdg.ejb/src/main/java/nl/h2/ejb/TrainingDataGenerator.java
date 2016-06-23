@@ -1,12 +1,14 @@
 package nl.h2.ejb;
 
-import nl.h2.ejb.schema.*;
+import nl.h2.controller.AddressController;
+import nl.h2.schema.*;
 import nl.h2.utils.exception.ApplicatieException;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.io.*;
 import java.util.*;
 
 @Stateless
@@ -30,6 +32,8 @@ public class TrainingDataGenerator {
     private List<AdjustmentDefinitionJPA> allAdjustments = new ArrayList<AdjustmentDefinitionJPA>();
     private List<ContractorJPA> allContractors = new ArrayList<ContractorJPA>();
     private int totalApplications;
+    private AddressController addressController = null;
+    private List<BagJPA> bagList = null;
 
 
     /**
@@ -1037,13 +1041,18 @@ public class TrainingDataGenerator {
             actualConditions = getRandomConditionList(1, 3);
         }
 
-        // TODO : Create address and BAG
+        // Select a random address location from the csv (roughly 5.8k options)
+        BagJPA bag = getBagList().get(getRandom().nextInt(getBagList().size()));
+
+        // Add a random build year to the BAG from the last 150 years
+        bag.setBuildYear((short) (2016 - getRandom().nextInt(150)));
 
 
         // Create new housing situation
         HousingSituationJPA housingSituation = new HousingSituationJPA();
         housingSituation.setFloor((short) calculateAbsoluteGaussian(2.0, 1.0));
         housingSituation.setElevator(getRandom().nextBoolean());
+        housingSituation.setBag(bag);
         housingSituation.setResidents(new ArrayList<PersonToHousingSituationJPA>());
         housingSituation.setPlacedAdjustments(new ArrayList<HousingSituationToAdjustmentJPA>());
         PersonToHousingSituationJPA resident = new PersonToHousingSituationJPA();
@@ -1629,5 +1638,27 @@ public class TrainingDataGenerator {
 
     public void setTotalApplications(int totalApplications) {
         this.totalApplications = totalApplications;
+    }
+
+    public AddressController getAddressController() {
+        if (addressController == null) {
+            addressController = new AddressController();
+        }
+        return addressController;
+    }
+
+    public void setAddressController(AddressController addressController) {
+        this.addressController = addressController;
+    }
+
+    public List<BagJPA> getBagList() {
+        if (bagList == null) {
+            bagList = getAddressController().getBagList();
+        }
+        return bagList;
+    }
+
+    public void setBagList(List<BagJPA> bagList) {
+        this.bagList = bagList;
     }
 }

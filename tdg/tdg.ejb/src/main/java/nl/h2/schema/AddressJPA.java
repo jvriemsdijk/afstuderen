@@ -1,4 +1,4 @@
-package nl.h2.ejb.schema;
+package nl.h2.schema;
 
 import javax.persistence.*;
 
@@ -97,7 +97,7 @@ public class AddressJPA {
     }
 
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
     public BagJPA getBag() {
         return bag;
     }

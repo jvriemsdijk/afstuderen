@@ -1,4 +1,4 @@
-package nl.h2.ejb.schema;
+package nl.h2.schema;
 
 import javax.persistence.*;
 
@@ -20,6 +20,7 @@ public class BagJPA {
     private Double x;
     private Double y;
     private AddressJPA address;
+    private HousingSituationJPA housingSituation;
 
 
     @Id
@@ -56,7 +57,7 @@ public class BagJPA {
     }
 
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address", referencedColumnName = "address_id", nullable = false)
     public AddressJPA getAddress() {
         return address;
@@ -111,6 +112,16 @@ public class BagJPA {
     }
 
 
+    @OneToOne(mappedBy = "bag", cascade = CascadeType.ALL)
+    public HousingSituationJPA getHousingSituation() {
+        return housingSituation;
+    }
+
+    public void setHousingSituation(HousingSituationJPA housingSituation) {
+        this.housingSituation = housingSituation;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -132,7 +143,7 @@ public class BagJPA {
 
     @Override
     public int hashCode() {
-        int result = (int) (getBagId() ^ (getBagId() >>> 32));
+        int result = 32;
         result = 31 * result + (int) getBuildYear();
         result = 31 * result + (getBuildingContour() != null ? getBuildingContour().hashCode() : 0);
         result = 31 * result + (getUsableSurface() != null ? getUsableSurface().hashCode() : 0);

@@ -1,4 +1,4 @@
-package nl.h2.ejb.schema;
+package nl.h2.schema;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +16,7 @@ public class HousingSituationJPA {
     private Long housingSituationId;
     private short floor;
     private boolean elevator;
+    private BagJPA bag;
     private List<PersonToHousingSituationJPA> residents;
     private List<HousingSituationToAdjustmentJPA> placedAdjustments;
 
@@ -50,6 +51,17 @@ public class HousingSituationJPA {
 
     public void setElevator(boolean elevator) {
         this.elevator = elevator;
+    }
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bag", referencedColumnName = "bag_id", nullable = false)
+    public BagJPA getBag() {
+        return bag;
+    }
+
+    public void setBag(BagJPA bag) {
+        this.bag = bag;
     }
 
 

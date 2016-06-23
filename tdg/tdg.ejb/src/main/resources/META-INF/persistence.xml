@@ -2,19 +2,19 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
   <persistence-unit name="tdg.database" transaction-type="JTA">
       <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
-      <class>nl.h2.ejb.schema.AdjustmentJPA</class>
-      <class>nl.h2.ejb.schema.AdjustmentDefinitionJPA</class>
-      <class>nl.h2.ejb.schema.AdviceJPA</class>
-      <class>nl.h2.ejb.schema.BagJPA</class>
-      <class>nl.h2.ejb.schema.ConditionJPA</class>
-      <class>nl.h2.ejb.schema.HousingSituationJPA</class>
-      <class>nl.h2.ejb.schema.PersonJPA</class>
-      <class>nl.h2.ejb.schema.WmoDecisionJPA</class>
-      <class>nl.h2.ejb.schema.AddressJPA</class>
-      <class>nl.h2.ejb.schema.ApplicationJPA</class>
-      <class>nl.h2.ejb.schema.ContractorJPA</class>
-      <class>nl.h2.ejb.schema.HousingSituationToAdjustmentJPA</class>
-      <class>nl.h2.ejb.schema.PersonToHousingSituationJPA</class>
+      <class>nl.h2.schema.AdjustmentJPA</class>
+      <class>nl.h2.schema.AdjustmentDefinitionJPA</class>
+      <class>nl.h2.schema.AdviceJPA</class>
+      <class>nl.h2.schema.BagJPA</class>
+      <class>nl.h2.schema.ConditionJPA</class>
+      <class>nl.h2.schema.HousingSituationJPA</class>
+      <class>nl.h2.schema.PersonJPA</class>
+      <class>nl.h2.schema.WmoDecisionJPA</class>
+      <class>nl.h2.schema.AddressJPA</class>
+      <class>nl.h2.schema.ApplicationJPA</class>
+      <class>nl.h2.schema.ContractorJPA</class>
+      <class>nl.h2.schema.HousingSituationToAdjustmentJPA</class>
+      <class>nl.h2.schema.PersonToHousingSituationJPA</class>
       <exclude-unlisted-classes>false</exclude-unlisted-classes>
       <properties>
           <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/postgres"/>
