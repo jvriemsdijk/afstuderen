@@ -150,10 +150,10 @@ public class TrainingDataGenerator {
         removeWmoDecisions.executeUpdate();
         removeAdvice.executeUpdate();
         removeApplication.executeUpdate();
-        removeBag.executeUpdate();
         removeContractor.executeUpdate();
-        removeAdresses.executeUpdate();
         removeHousingSituations.executeUpdate();
+        removeBag.executeUpdate();
+        removeAdresses.executeUpdate();
         removePersons.executeUpdate();
         removeAdjustmentDefinitions.executeUpdate();
 
@@ -1044,9 +1044,8 @@ public class TrainingDataGenerator {
         // Select a random address location from the csv (roughly 5.8k options)
         BagJPA bag = getBagList().get(getRandom().nextInt(getBagList().size()));
 
-        // Add a random build year to the BAG from the last 150 years
-        bag.setBuildYear((short) (2016 - getRandom().nextInt(150)));
-
+        // Add a random build year to the BAG from the last 130 years
+        bag.setBuildYear((short) (2016 - getRandom().nextInt(130)));
 
         // Create new housing situation
         HousingSituationJPA housingSituation = new HousingSituationJPA();
@@ -1140,8 +1139,16 @@ public class TrainingDataGenerator {
             proposedAdjustment.setContractor(allContractors.get(getRandom().nextInt(allContractors.size())));
 
             // Calculate cost of the adjustment
-            // TODO : take into account the age of the building
-            proposedAdjustment.setActualCost(calculateAbsoluteGaussian(selectedAdjustment.getAverageCost(), selectedAdjustment.getCostMargin()) * (1 + proposedAdjustment.getContractor().getCostModifier()));
+            double contractorModifier = 1 + proposedAdjustment.getContractor().getCostModifier();
+            double buildingAgeModifier = 1.0;
+            short buildYear = housingSituation.getBag().getBuildYear();
+            if (buildYear < 2000) {
+                int deltaYears = 2000 - buildYear;
+                double ageModifier = deltaYears / 300.0;
+                buildingAgeModifier += ageModifier;
+            }
+
+            proposedAdjustment.setActualCost(calculateAbsoluteGaussian(selectedAdjustment.getAverageCost(), selectedAdjustment.getCostMargin()) * contractorModifier * buildingAgeModifier);
 
             // Add the adjustment to the housing situation
             HousingSituationToAdjustmentJPA installationPeriod = new HousingSituationToAdjustmentJPA();

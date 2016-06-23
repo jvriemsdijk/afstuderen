@@ -93,33 +93,33 @@ public class TrainingDataGeneratorTest {
 
         instance.clearData();
         instance.initialDataLoad();
-        instance.generateTrainingData(5, 1.5, 0.3, 1.0, 0.0, null);
+//        instance.generateTrainingData(50, 1.5, 0.3, 1.0, 0.0, null);
 
 
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 2.5, 0.5, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.2, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 2.0, 0.2, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 2.0, 0.2, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 2.0, 0.2, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 2.0, 0.2, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
-//        instance.generateTrainingData(2000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 2.5, 0.5, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.2, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 2.0, 0.2, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 2.0, 0.2, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 2.0, 0.2, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 2.0, 0.2, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(5000, 1.5, 0.3, 1.0, 0.0, null);
+        instance.generateTrainingData(2000, 1.5, 0.3, 1.0, 0.0, null);
 
     }
 
